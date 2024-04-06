@@ -1,14 +1,11 @@
 <template>
   <div>
     <v-card class="mx-auto" max-width="700">
-      <v-toolbar color="purple">
+      <v-toolbar color="purple" density="compact">
         <v-toolbar-title>
-          <v-tooltip
-            text="Tooltipastastast11111111111111112222222222222222aetasetaestaaaaaabbbbbbbbbbbbbbbbbbbbasetasetastastaetetestataset"
-            location="bottom"
-          >
+          <v-tooltip :text="hash" location="bottom">
             <template v-slot:activator="{ props }">
-              <div v-bind="props" @click="foo(props)">Hash</div>
+              <div v-bind="props" @click="foo(props)">{{ hash.slice(0, 20) }}</div>
             </template>
           </v-tooltip>
         </v-toolbar-title>
@@ -21,10 +18,11 @@
         lines="two"
         :selected="selected"
         select-strategy="classic"
-        v-for="file in files"
+        v-for="file in props.files"
         :key="file.id"
+        density="compact"
       >
-        <v-list-item :value="file.id">
+        <v-list-item :value="file.id" density="compact">
           <template v-slot:prepend="{ isSelected }">
             <v-list-item-action start>
               <v-checkbox-btn :model-value="isSelected" :update:modelValue="foo"></v-checkbox-btn>
@@ -68,11 +66,22 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 import DeleteAllConfirm from './delete-all-confirm.vue';
 
-const foo = (props) => {
-  console.info(`props`, props);
+type FileItem = {
+  id: string;
+  name: string;
+  path: string;
+};
+
+const props = defineProps<{
+  hash: string;
+  files: FileItem[];
+}>();
+
+const foo = (a) => {
+  console.info(`props`, a);
 };
 
 const needConfirm = ref(null);
@@ -117,20 +126,6 @@ const handleDeleteFileCancel = (file) => {
   console.info(`delete file cancel`, file);
   needConfirm.value = null;
 };
-
-const files = [
-  {
-    id: '1',
-    name: 'Notifications',
-    path: '1 Notify me about updates to apps or games that I downloaded',
-  },
-  { id: '2', name: 'Sound', path: '2 Auto-update apps at any time. Data charges may apply' },
-  {
-    id: '3',
-    name: 'Auto-add widgets',
-    path: '3 Automatically add home screen widgets when downloads complete',
-  },
-];
 </script>
 
 <style lang="less" scoped></style>

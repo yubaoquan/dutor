@@ -15,7 +15,7 @@ module.exports = {
     'airbnb-base',
     'airbnb-typescript/base',
     'plugin:import/errors',
-    'prettier'
+    'prettier',
   ],
   parser: 'vue-eslint-parser',
   plugins: ['@typescript-eslint', 'prettier', 'import'],
@@ -24,7 +24,7 @@ module.exports = {
     extraFileExtensions: ['.ts', '.vue'],
     project: ['./tsconfig.json', './tsconfig.eslint.json'],
     ecmaVersion: 'latest',
-    createDefaultProgram: true
+    createDefaultProgram: true,
   },
   rules: {
     'prettier/prettier': 'error',
@@ -39,7 +39,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: true, optionalDependencies: false, peerDependencies: false }
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
     ],
     '@typescript-eslint/no-loop-func': 'off',
 
@@ -50,16 +50,16 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error', { ignoreTypeReferences: false }],
     '@typescript-eslint/no-unused-vars': [
       'error',
-      { args: 'after-used', destructuredArrayIgnorePattern: '^_' }
+      { args: 'after-used', destructuredArrayIgnorePattern: '^_' },
     ],
 
     'prefer-destructuring': [
       'error',
       {
         VariableDeclarator: { array: false, object: true },
-        AssignmentExpression: { array: false, object: false }
+        AssignmentExpression: { array: false, object: false },
       },
-      { enforceForRenamedProperties: false }
+      { enforceForRenamedProperties: false },
     ],
 
     'lines-around-comment': [
@@ -70,8 +70,8 @@ module.exports = {
         allowClassStart: true,
         allowObjectStart: true,
         beforeBlockComment: true,
-        beforeLineComment: true
-      }
+        beforeLineComment: true,
+      },
     ],
 
     'padding-line-between-statements': [
@@ -83,7 +83,7 @@ module.exports = {
       { blankLine: 'always', prev: '*', next: 'export' },
       { blankLine: 'always', prev: 'import', next: '*' },
       { blankLine: 'any', prev: 'import', next: 'import' },
-      { blankLine: 'any', prev: 'export', next: 'export' }
-    ]
-  }
+      { blankLine: 'any', prev: 'export', next: 'export' },
+    ],
+  },
 };

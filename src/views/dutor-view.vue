@@ -3,17 +3,23 @@
     <v-row no-gutters>
       <v-col cols="12" sm="4">
         <v-sheet class="ma-2 pa-2">
-          <v-treeview :items="files" density="compact" selectable>
-            <template v-slot:prepend="{ item, open }">
-              <v-icon v-if="item.children" :icon="open ? 'mdi-folder-open' : 'mdi-folder'"></v-icon>
-              <v-icon v-else icon="mdi-file-document-outline"></v-icon>
-            </template>
-          </v-treeview>
+          <folder-select></folder-select>
+          <div class="mt-4 text-right">
+            <v-btn color="primary" :loading="isLoading" @click="handleStartClick">开始扫描</v-btn>
+          </div>
         </v-sheet>
       </v-col>
       <v-col cols="12" sm="8">
+        <div class="text-right pr-2">
+          <v-btn color="red" @click="handleDeleteAllClick">删除全部勾选项</v-btn>
+        </div>
         <v-sheet class="ma-2 pa-2">
-          <file-list></file-list>
+          <file-list
+            v-for="filesGroup in filesGroups"
+            :key="filesGroup.hash"
+            :hash="filesGroup.hash"
+            :files="filesGroup.files"
+          ></file-list>
         </v-sheet>
       </v-col>
     </v-row>
@@ -21,81 +27,73 @@
 </template>
 
 <script lang="ts" setup>
-import { VTreeview } from 'vuetify/labs/VTreeview';
+import { ref } from 'vue';
 import FileList from '@/components/file-list/file-list.vue';
+import FolderSelect from '@/components/folder-select/folder-select.vue';
 
-const files = [
+const isLoading = ref(false);
+const handleStartClick = () => {
+  isLoading.value = true;
+
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 1000);
+};
+
+const handleDeleteAllClick = () => {
+  console.info(`delete all files`);
+};
+
+const filesGroups = ref([
   {
-    id: 1,
-    title: 'Applications :',
-    children: [
-      { id: 2, title: 'Calendar : app' },
-      { id: 3, title: 'Chrome : app' },
-      { id: 4, title: 'Webstorm : app' },
-    ],
-  },
-  {
-    id: 5,
-    title: 'Documents :',
-    children: [
+    hash: '111Tooltipastastast11111111111111112222222222222222aetasetaestaaaaaabbbbbbbbbbbbbbbbbbbbasetasetastastaetetestataset',
+    files: [
       {
-        id: 6,
-        title: 'vuetify :',
-        children: [
-          {
-            id: 7,
-            title: 'src :',
-            children: [
-              { id: 8, title: 'index : ts' },
-              { id: 9, title: 'bootstrap : ts' },
-            ],
-          },
-        ],
+        id: '1',
+        name: 'Notifications',
+        path: '1 Notify me about updates to apps or games that I downloaded',
       },
+      { id: '2', name: 'Sound', path: '2 Auto-update apps at any time. Data charges may apply' },
       {
-        id: 10,
-        title: 'material2 :',
-        children: [
-          {
-            id: 11,
-            title: 'src :',
-            children: [
-              { id: 12, title: 'v-btn : ts' },
-              { id: 13, title: 'v-card : ts' },
-              { id: 14, title: 'v-window : ts' },
-            ],
-          },
-        ],
+        id: '3',
+        name: 'Auto-add widgets',
+        path: '3 Automatically add home screen widgets when downloads complete',
       },
     ],
   },
   {
-    id: 15,
-    title: 'Downloads :',
-    children: [
-      { id: 16, title: 'October : pdf' },
-      { id: 17, title: 'November : pdf' },
-      { id: 18, title: 'Tutorial : html' },
+    hash: '22222222oltipastastast11111111111111112222222222222222aetasetaestaaaaaabbbbbbbbbbbbbbbbbbbbasetasetastastaetetestataset',
+    files: [
+      {
+        id: '1',
+        name: 'Notifications',
+        path: '1 Notify me about updates to apps or games that I downloaded',
+      },
+      { id: '2', name: 'Sound', path: '2 Auto-update apps at any time. Data charges may apply' },
+      {
+        id: '3',
+        name: 'Auto-add widgets',
+        path: '3 Automatically add home screen widgets when downloads complete',
+      },
     ],
   },
   {
-    id: 19,
-    title: 'Videos :',
-    children: [
+    hash: '333333333astastast11111111111111112222222222222222aetasetaestaaaaaabbbbbbbbbbbbbbbbbbbbasetasetastastaetetestataset',
+    files: [
       {
-        id: 20,
-        title: 'Tutorials :',
-        children: [
-          { id: 21, title: 'Basic layouts : mp4' },
-          { id: 22, title: 'Advanced techniques : mp4' },
-          { id: 23, title: 'All about app : dir' },
-        ],
+        id: '1',
+        name: 'Notifications',
+        path: '1 Notify me about updates to apps or games that I downloaded',
       },
-      { id: 24, title: 'Intro : mov' },
-      { id: 25, title: 'Conference introduction : avi' },
+      { id: '2', name: 'Sound', path: '2 Auto-update apps at any time. Data charges may apply' },
+      {
+        id: '3',
+        name: 'Auto-add widgets',
+        path: '3 Automatically add home screen widgets when downloads complete',
+      },
     ],
   },
-];
+]);
 </script>
 
 <style lang="less" scoped></style>
