@@ -1,0 +1,10 @@
+{
+  "files": [
+    ".eslintrc.cjs",
+    "electron.vite.config.ts",
+    "vite.config.ts",
+    "src/**/*.ts",
+    "src/**/*.vue"
+  ],
+  "include": ["src", "*.js"]
+}
