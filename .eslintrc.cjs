@@ -31,6 +31,7 @@ module.exports = {
     createDefaultProgram: true,
   },
   rules: {
+    'no-undef': 'error',
     'prettier/prettier': 'error',
     'no-plusplus': 'off',
     'no-console': 'off',

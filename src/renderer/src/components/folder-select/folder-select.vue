@@ -9,47 +9,57 @@
     :tree-data="treeData"
     tree-node-filter-prop="label"
     :load-data="onLoadData"
+    @select="handleNodeSelect"
   ></tree-select>
 </template>
 
 <script lang="ts" setup>
+import { ref, watch, onMounted, defineEmits } from 'vue';
 import { TreeSelect } from 'ant-design-vue';
 import type { TreeSelectProps } from 'ant-design-vue';
-import { ref, watch } from 'vue';
 
 const value = ref<string>();
-const treeData = ref<TreeSelectProps['treeData']>([
-  { id: 1, pId: 0, value: '1', title: 'Expand to load' },
-  { id: 2, pId: 0, value: '2', title: 'Expand to load' },
-  { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
-]);
+const treeData = ref<TreeSelectProps['treeData']>([]);
+
+// { id: 1, pId: 0, value: '1', title: 'Expand to load' },
+onMounted(async () => {
+  const folders = await window.api.getFolders();
+  console.info(`folders`, folders);
+  treeData.value = folders.map((item) => ({
+    id: item.path,
+    pId: '',
+    value: item.path,
+    title: item.name,
+  }));
+});
+
+const emit = defineEmits<{
+  (e: 'select', id: string): void;
+}>();
 
 watch(value, () => {
   console.log(value.value);
 });
 
-const genTreeNode = (parentId: number, isLeaf = false): TreeSelectProps['treeData'][number] => {
-  const random = Math.random().toString(36).substring(2, 6);
-  return {
-    id: random,
-    pId: parentId,
-    value: random,
-    title: isLeaf ? 'Tree Node' : 'Expand to load',
-    isLeaf,
-  };
+const handleNodeSelect = (v) => {
+  emit('select', v);
 };
+
 const onLoadData = (treeNode: TreeSelectProps['treeData'][number]) =>
-  new Promise((resolve) => {
+  new Promise(async (resolve) => {
     const { id } = treeNode.dataRef;
-    setTimeout(() => {
-      treeData.value = treeData.value.concat([
-        genTreeNode(id, false),
-        genTreeNode(id, true),
-        genTreeNode(id, true),
-      ]);
-      console.log(treeData.value);
-      resolve(true);
-    }, 300);
+    console.info(`node id`, id);
+    const folders = await window.api.getFolders(id);
+    console.info(`subfolders`, folders);
+    treeData.value = treeData.value.concat(
+      folders.map((item) => ({
+        id: item.path,
+        pId: id,
+        value: item.path,
+        title: item.name,
+      })),
+    );
+    resolve(true);
   });
 </script>
 

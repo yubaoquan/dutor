@@ -4,6 +4,8 @@ import { electronAPI } from '@electron-toolkit/preload';
 // Custom APIs for renderer
 const api = {
   ping: () => ipcRenderer.invoke('ping'),
+  getFolders: (folder) => ipcRenderer.invoke('get-folders', folder),
+  scanDuplicatedFiles: (folder) => ipcRenderer.invoke('scan-duplicated-files', folder),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

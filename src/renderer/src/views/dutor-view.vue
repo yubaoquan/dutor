@@ -3,9 +3,15 @@
     <v-row no-gutters>
       <v-col cols="12" sm="4">
         <v-sheet class="ma-2 pa-2">
-          <folder-select></folder-select>
+          <folder-select @select="handleFolderSelect"></folder-select>
           <div class="mt-4 text-right">
-            <v-btn color="primary" :loading="isLoading" @click="handleStartClick">开始扫描</v-btn>
+            <v-btn
+              color="primary"
+              :loading="isLoading"
+              :disabled="!targetFolder"
+              @click="handleStartClick"
+              >开始扫描</v-btn
+            >
           </div>
         </v-sheet>
       </v-col>
@@ -31,17 +37,22 @@ import { ref } from 'vue';
 import FileList from '@/components/file-list/file-list.vue';
 import FolderSelect from '@/components/folder-select/folder-select.vue';
 
+const targetFolder = ref<string>('');
 const isLoading = ref(false);
-const handleStartClick = () => {
+const handleStartClick = async () => {
   isLoading.value = true;
+  const result = await window.api.scanDuplicatedFiles(targetFolder.value);
+  console.info('scan result', result);
 
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 1000);
+  isLoading.value = false;
 };
 
 const handleDeleteAllClick = () => {
   console.info(`delete all files`);
+};
+
+const handleFolderSelect = (v) => {
+  targetFolder.value = v;
 };
 
 const filesGroups = ref([
