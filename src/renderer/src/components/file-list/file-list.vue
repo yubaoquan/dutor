@@ -5,12 +5,17 @@
         <v-toolbar-title>
           <v-tooltip :text="hash" location="bottom">
             <template #activator="{ props: prps }">
-              <div v-bind="prps" @click="foo(prps)">{{ hash.slice(0, 20) }}</div>
+              <div v-bind="prps">{{ hash.slice(0, 20) }}</div>
             </template>
           </v-tooltip>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn density="comfortable" icon="mdi-delete" @click="handleDeleteAllClick"></v-btn>
+        <v-btn
+          density="comfortable"
+          icon="mdi-delete"
+          :disabled="!selected.length"
+          @click="handleDeleteAllClick"
+        ></v-btn>
       </v-toolbar>
 
       <v-list
@@ -58,16 +63,16 @@
     </v-card>
   </div>
 
-  <DeleteAllConfirm
+  <delete-all-confirm
     :visible="deleteAllAsk"
     @cancel="handleDeleteAllCancel"
     @confirm="handleDeleteAllConfirm"
-  ></DeleteAllConfirm>
+  ></delete-all-confirm>
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits, inject } from 'vue';
-import DeleteAllConfirm from './delete-all-confirm.vue';
+import { ref, defineProps, defineEmits, toRaw } from 'vue';
+import useDeleteAll from './delete-all-confirm-mixin';
 
 type FileItem = {
   id: string;
@@ -75,12 +80,10 @@ type FileItem = {
   path: string;
 };
 
-const toast: any = inject('toast');
-
 const emit = defineEmits<{
   (e: 'select-file', id: string): void;
   (e: 'unselect-file', id: string): void;
-  (e: 'file-deleted', id: string): void;
+  (e: 'delete-files', ids: string[]): void;
 }>();
 
 const props = defineProps<{
@@ -88,20 +91,16 @@ const props = defineProps<{
   files: FileItem[];
 }>();
 
-const foo = (a: any) => {
-  console.info(`props`, a);
-};
+const { DeleteAllConfirm, deleteAllAsk, handleDeleteAllCancel, handleDeleteAllClick } =
+  useDeleteAll();
 
 const needConfirm = ref(null);
 const selected = ref<string[]>([]);
-const deleteAllAsk = ref(false);
-const handleDeleteAllCancel = () => {
-  console.info(`cancel`);
-  deleteAllAsk.value = false;
-};
 const handleDeleteAllConfirm = () => {
-  console.info(`confirm`);
   deleteAllAsk.value = false;
+
+  // ipcRender.invoke 无法传输 Proxy, 所以要使用原始对象
+  emit('delete-files', toRaw(selected.value));
 };
 
 const handleFileSelect = (file) => {
@@ -115,26 +114,13 @@ const handleFileSelect = (file) => {
   }
 };
 
-const handleDeleteAllClick = () => {
-  // selected.value = [];
-  console.info(`delete all files`);
-  deleteAllAsk.value = true;
-};
-
 const handleDeleteFileClick = (file) => {
   console.info(`delete file`, file);
   needConfirm.value = file.id;
 };
 
 const handleDeleteFileConfirm = async (file) => {
-  console.info(`delete file confirm`, file);
-  needConfirm.value = null;
-  const success = await window.api.deleteFiles([file.path]);
-  if (success) {
-    emit('file-deleted', file.path);
-  } else {
-    toast('删除文件失败');
-  }
+  emit('delete-files', [file.path]);
 };
 
 const handleDeleteFileCancel = (file) => {

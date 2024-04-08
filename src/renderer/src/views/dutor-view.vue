@@ -37,16 +37,23 @@
             :files="filesGroup.files"
             @select-file="handleFileSelect"
             @unselect-file="handleFileUnselect"
-            @file-deleted="handleFileDeleted"
+            @delete-files="handleDeleteFiles"
           ></file-list>
         </v-sheet>
       </v-col>
     </v-row>
   </v-container>
+
+  <delete-all-confirm
+    :visible="deleteAllAsk"
+    @cancel="handleDeleteAllCancel"
+    @confirm="handleDeleteAllConfirm"
+  ></delete-all-confirm>
 </template>
 
 <script lang="ts" setup>
-import { ref, provide } from 'vue';
+import { ref, provide, toRaw } from 'vue';
+import useDeleteAll from '@renderer/components/file-list/delete-all-confirm-mixin';
 import FileList from '@/components/file-list/file-list.vue';
 import FolderSelect from '@/components/folder-select/folder-select.vue';
 
@@ -65,6 +72,8 @@ type HashItem = {
 };
 const filesGroups = ref<HashItem[]>([]);
 const selectedFileIds = ref<string[]>([]);
+const { DeleteAllConfirm, deleteAllAsk, handleDeleteAllCancel, handleDeleteAllClick } =
+  useDeleteAll();
 
 const toast = (msg: string) => {
   toastMessage.value = msg;
@@ -97,10 +106,6 @@ const handleScanClick = async () => {
   }
 };
 
-const handleDeleteAllClick = () => {
-  console.info(`delete all files`);
-};
-
 const handleFolderSelect = (v) => {
   targetFolder.value = v;
 };
@@ -117,11 +122,27 @@ const handleFileUnselect = (id: string) => {
   }
 };
 
-const handleFileDeleted = (id: string) => {
-  selectedFileIds.value = selectedFileIds.value.filter((item) => item !== id);
+const updateFiles = (deleted: string[]) => {
+  selectedFileIds.value = selectedFileIds.value.filter((item) => !deleted.includes(item));
   filesGroups.value.forEach((group) => {
-    group.files = group.files.filter((file) => file.id !== id);
+    group.files = group.files.filter((file) => !deleted.includes(file.id));
   });
+  filesGroups.value = filesGroups.value.filter((group) => group.files.length > 0);
+};
+
+const handleDeleteFiles = async (paths: string[]) => {
+  console.info(`handleDeleteFiles`, paths);
+  const success = await window.api.deleteFiles(paths);
+  if (success) {
+    updateFiles(paths);
+  } else {
+    toast('删除文件失败');
+  }
+};
+
+const handleDeleteAllConfirm = () => {
+  deleteAllAsk.value = false;
+  handleDeleteFiles(toRaw(selectedFileIds.value));
 };
 </script>
 
