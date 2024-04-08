@@ -13,7 +13,5 @@
       "@renderer/*": [ "src/renderer/src/*" ],
       "@/*": [ "src/renderer/src/*" ]
     },
-    "allowImportingTsExtensions": true,
-    "noEmit": true
   }
 }

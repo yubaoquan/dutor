@@ -1,11 +1,12 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
+import { IPCMessage } from '../common/message';
 
 // Custom APIs for renderer
 const api = {
-  ping: () => ipcRenderer.invoke('ping'),
-  getFolders: (folder) => ipcRenderer.invoke('get-folders', folder),
-  scanDuplicatedFiles: (folder) => ipcRenderer.invoke('scan-duplicated-files', folder),
+  ping: () => ipcRenderer.invoke(IPCMessage.Ping),
+  getFolders: (folder) => ipcRenderer.invoke(IPCMessage.GetFolders, folder),
+  scanDuplicatedFiles: (folder) => ipcRenderer.invoke(IPCMessage.ScanDuplicatedFiles, folder),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

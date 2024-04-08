@@ -6,11 +6,11 @@
     transition="dialog-top-transition"
   >
     <v-card prepend-icon="mdi-help-circle" text="将删除全部勾选的文件" title="确定删除吗?">
-      <template v-slot:actions>
+      <template #actions>
         <v-spacer></v-spacer>
 
-        <v-btn @click="handleCancelClick" variant="tonal">取消</v-btn>
-        <v-btn @click="handleConfirmClick" variant="flat" color="#5865f2">确定</v-btn>
+        <v-btn variant="tonal" @click="handleCancelClick">取消</v-btn>
+        <v-btn variant="flat" color="#5865f2" @click="handleConfirmClick">确定</v-btn>
       </template>
     </v-card>
   </v-dialog>

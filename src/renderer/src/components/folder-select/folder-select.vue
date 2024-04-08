@@ -17,6 +17,7 @@
 import { ref, watch, onMounted, defineEmits } from 'vue';
 import { TreeSelect } from 'ant-design-vue';
 import type { TreeSelectProps } from 'ant-design-vue';
+import type { LegacyDataNode } from 'ant-design-vue/es/vc-tree-select/interface';
 
 const value = ref<string>();
 const treeData = ref<TreeSelectProps['treeData']>([]);
@@ -45,13 +46,13 @@ const handleNodeSelect = (v) => {
   emit('select', v);
 };
 
-const onLoadData = (treeNode: TreeSelectProps['treeData'][number]) =>
+const onLoadData = (treeNode: LegacyDataNode) =>
   new Promise(async (resolve) => {
     const { id } = treeNode.dataRef;
     console.info(`node id`, id);
     const folders = await window.api.getFolders(id);
     console.info(`subfolders`, folders);
-    treeData.value = treeData.value.concat(
+    treeData.value = treeData.value!.concat(
       folders.map((item) => ({
         id: item.path,
         pId: id,

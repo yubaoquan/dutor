@@ -1,10 +1,12 @@
-import fs from 'fs/promises';
+import fs from 'fs';
+import promisedFs from 'fs/promises';
 import path from 'path';
 import dirTree from 'directory-tree';
 import md5 from 'md5-file';
+import type { FolderModel } from '../common/types';
 
 export const getAllDrives = () => {
-  const drives = [];
+  const drives: FolderModel[] = [];
   const isWindows = process.platform === 'win32';
 
   if (isWindows) {
@@ -23,7 +25,7 @@ export const getAllDrives = () => {
 
 export const getDirs = async (rootDir = '/') => {
   try {
-    const files = await fs.readdir(rootDir, { withFileTypes: true });
+    const files = await promisedFs.readdir(rootDir, { withFileTypes: true });
     const directories = files
       .filter((file) => file.isDirectory())
       .map((dir) => ({
@@ -40,7 +42,7 @@ export const getDirs = async (rootDir = '/') => {
 
 export const scanDuplicatedFiles = async (dir) => {
   if (!dir) return [];
-  const tasks = [];
+  const tasks: Promise<void>[] = [];
   const tree = dirTree(dir, { attributes: ['size', 'type'] });
 
   const ret = {};
@@ -49,7 +51,7 @@ export const scanDuplicatedFiles = async (dir) => {
     nodes.forEach((node) => {
       if (node.type === 'file') {
         tasks.push(
-          new Promise(async (resolve) => {
+          new Promise<void>(async (resolve) => {
             try {
               const hash = await md5(node.path);
               if (!ret[hash]) {

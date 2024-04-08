@@ -1,7 +1,8 @@
-import { getAllDrives, getDirs, scanDuplicatedFiles } from './fs-utils.ts';
+import { getAllDrives, getDirs, scanDuplicatedFiles } from './fs-utils';
+import { IPCMessage } from '../common/message';
 
 export const handleGetFolders = async (ipcMain) => {
-  ipcMain.handle('get-folders', async (event, folder) => {
+  ipcMain.handle(IPCMessage.GetFolders, async (_event, folder) => {
     const folders = folder ? await getDirs(folder) : getAllDrives();
 
     return folders;
@@ -9,7 +10,7 @@ export const handleGetFolders = async (ipcMain) => {
 };
 
 export const handleDuplicatedScanFiles = async (ipcMain) => {
-  ipcMain.handle('scan-duplicated-files', async (event, folderPath) => {
+  ipcMain.handle(IPCMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
     const result = await scanDuplicatedFiles(folderPath);
     console.info(result);
     return result;
@@ -18,7 +19,7 @@ export const handleDuplicatedScanFiles = async (ipcMain) => {
 
 export const handlePing = async (ipcMain) => {
   ipcMain.handle(
-    'ping',
+    IPCMessage.Ping,
     async () =>
       new Promise<string>((resolve) => {
         setTimeout(() => {

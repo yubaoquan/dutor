@@ -2,7 +2,7 @@ import { join } from 'path';
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import { handleGetFolders, handlePing, handleDuplicatedScanFiles } from './handlers.ts';
+import { handleGetFolders, handlePing, handleDuplicatedScanFiles } from './handlers';
 
 function createWindow(): void {
   // Create the browser window.

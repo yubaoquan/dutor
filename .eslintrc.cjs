@@ -31,7 +31,6 @@ module.exports = {
     createDefaultProgram: true,
   },
   rules: {
-    'no-undef': 'error',
     'prettier/prettier': 'error',
     'no-plusplus': 'off',
     'no-console': 'off',
@@ -47,9 +46,8 @@ module.exports = {
       { devDependencies: true, optionalDependencies: false, peerDependencies: false },
     ],
     '@typescript-eslint/no-loop-func': 'off',
-
+    '@typescript-eslint/no-explicit-any': 'off',
     'no-param-reassign': ['error', { props: false }],
-    'import/extensions': ['error', 'always', { ignorePackages: true }],
     '@typescript-eslint/prefer-optional-chain': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-use-before-define': ['error', { ignoreTypeReferences: false }],
