@@ -1,5 +1,4 @@
 import fs from 'fs';
-import promisedFs from 'fs/promises';
 import path from 'path';
 import dirTree from 'directory-tree';
 import md5 from 'md5-file';
@@ -25,7 +24,7 @@ export const getAllDrives = () => {
 
 export const getDirs = async (rootDir = '/') => {
   try {
-    const files = await promisedFs.readdir(rootDir, { withFileTypes: true });
+    const files = await fs.promises.readdir(rootDir, { withFileTypes: true });
     const directories = files
       .filter((file) => file.isDirectory())
       .map((dir) => ({
@@ -40,7 +39,7 @@ export const getDirs = async (rootDir = '/') => {
   }
 };
 
-export const scanDuplicatedFiles = async (dir) => {
+export const scanDuplicatedFiles = async (dir: string) => {
   if (!dir) return [];
   const tasks: Promise<void>[] = [];
   const tree = dirTree(dir, { attributes: ['size', 'type'] });
@@ -53,6 +52,7 @@ export const scanDuplicatedFiles = async (dir) => {
         tasks.push(
           new Promise<void>(async (resolve) => {
             try {
+              console.info(`scan`, node.path);
               const hash = await md5(node.path);
               if (!ret[hash]) {
                 ret[hash] = [node];
@@ -78,8 +78,17 @@ export const scanDuplicatedFiles = async (dir) => {
 
   await Promise.all(tasks);
 
-  console.info(`tree`, tree);
   console.info(`ret`, ret);
 
-  return tree;
+  return ret;
+};
+
+export const batchDeleteFiles = async (filePaths: string[]) => {
+  try {
+    await Promise.all(filePaths.map((filePath) => fs.promises.rm(filePath)));
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 };

@@ -40,7 +40,6 @@ const features = [
 ];
 
 const handleItemClick = (item) => {
-  console.info(`click`, item);
   router.push(item.path);
 };
 </script>

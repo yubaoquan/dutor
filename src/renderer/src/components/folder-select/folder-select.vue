@@ -9,6 +9,7 @@
     :tree-data="treeData"
     tree-node-filter-prop="label"
     :load-data="onLoadData"
+    :list-height="400"
     @select="handleNodeSelect"
   ></tree-select>
 </template>
@@ -49,9 +50,7 @@ const handleNodeSelect = (v) => {
 const onLoadData = (treeNode: LegacyDataNode) =>
   new Promise(async (resolve) => {
     const { id } = treeNode.dataRef;
-    console.info(`node id`, id);
     const folders = await window.api.getFolders(id);
-    console.info(`subfolders`, folders);
     treeData.value = treeData.value!.concat(
       folders.map((item) => ({
         id: item.path,

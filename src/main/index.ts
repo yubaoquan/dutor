@@ -2,7 +2,7 @@ import { join } from 'path';
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import { handleGetFolders, handlePing, handleDuplicatedScanFiles } from './handlers';
+import { registerHandlers } from './handlers';
 
 function createWindow(): void {
   // Create the browser window.
@@ -52,11 +52,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
-  // IPC test
-  handlePing(ipcMain);
-  handleGetFolders(ipcMain);
-  handleDuplicatedScanFiles(ipcMain);
-
+  registerHandlers(ipcMain);
   createWindow();
 
   app.on('activate', () => {

@@ -1,13 +1,18 @@
 <template>
-  <RouterView />
-  <div class="action">
-    <a target="_blank" rel="noreferrer" @click="ipcHandle">Send IPC</a>
+  <div v-if="!isHomePage" class="action">
+    <a target="_blank" rel="noreferrer" @click="handleHomeClick">Home</a>
   </div>
+  <RouterView />
 </template>
 
 <script setup lang="ts">
-const ipcHandle = async () => {
-  const res = await window.api.ping('ping');
-  console.info('res', res);
+import { computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+const isHomePage = computed(() => route.path === '/');
+const handleHomeClick = async () => {
+  router.push('/');
 };
 </script>

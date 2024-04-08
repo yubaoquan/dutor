@@ -1,7 +1,7 @@
-import { getAllDrives, getDirs, scanDuplicatedFiles } from './fs-utils';
+import { getAllDrives, getDirs, scanDuplicatedFiles, batchDeleteFiles } from './fs-utils';
 import { IPCMessage } from '../common/message';
 
-export const handleGetFolders = async (ipcMain) => {
+const handleGetFolders = async (ipcMain) => {
   ipcMain.handle(IPCMessage.GetFolders, async (_event, folder) => {
     const folders = folder ? await getDirs(folder) : getAllDrives();
 
@@ -9,7 +9,7 @@ export const handleGetFolders = async (ipcMain) => {
   });
 };
 
-export const handleDuplicatedScanFiles = async (ipcMain) => {
+const handleDuplicatedScanFiles = async (ipcMain) => {
   ipcMain.handle(IPCMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
     const result = await scanDuplicatedFiles(folderPath);
     console.info(result);
@@ -17,7 +17,7 @@ export const handleDuplicatedScanFiles = async (ipcMain) => {
   });
 };
 
-export const handlePing = async (ipcMain) => {
+const handlePing = async (ipcMain) => {
   ipcMain.handle(
     IPCMessage.Ping,
     async () =>
@@ -27,4 +27,17 @@ export const handlePing = async (ipcMain) => {
         }, 1000);
       }),
   );
+};
+
+const handleBatchDeleteFiles = async (ipcMain) => {
+  ipcMain.handle(IPCMessage.DeleteFiles, async (_event, filePaths: string[]) =>
+    batchDeleteFiles(filePaths),
+  );
+};
+
+export const registerHandlers = (ipcMain) => {
+  handleGetFolders(ipcMain);
+  handleDuplicatedScanFiles(ipcMain);
+  handlePing(ipcMain);
+  handleBatchDeleteFiles(ipcMain);
 };

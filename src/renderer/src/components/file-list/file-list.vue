@@ -66,7 +66,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, defineEmits, inject } from 'vue';
 import DeleteAllConfirm from './delete-all-confirm.vue';
 
 type FileItem = {
@@ -74,6 +74,14 @@ type FileItem = {
   name: string;
   path: string;
 };
+
+const toast: any = inject('toast');
+
+const emit = defineEmits<{
+  (e: 'select-file', id: string): void;
+  (e: 'unselect-file', id: string): void;
+  (e: 'file-deleted', id: string): void;
+}>();
 
 const props = defineProps<{
   hash: string;
@@ -85,7 +93,7 @@ const foo = (a: any) => {
 };
 
 const needConfirm = ref(null);
-const selected = ref(['2', '3']);
+const selected = ref<string[]>([]);
 const deleteAllAsk = ref(false);
 const handleDeleteAllCancel = () => {
   console.info(`cancel`);
@@ -97,12 +105,13 @@ const handleDeleteAllConfirm = () => {
 };
 
 const handleFileSelect = (file) => {
-  console.info(`handleFileSelect`, file);
   const { id, value } = file;
   if (value) {
     selected.value.push(id);
+    emit('select-file', id);
   } else {
     selected.value = selected.value.filter((item) => item !== id);
+    emit('unselect-file', id);
   }
 };
 
@@ -117,9 +126,15 @@ const handleDeleteFileClick = (file) => {
   needConfirm.value = file.id;
 };
 
-const handleDeleteFileConfirm = (file) => {
+const handleDeleteFileConfirm = async (file) => {
   console.info(`delete file confirm`, file);
   needConfirm.value = null;
+  const success = await window.api.deleteFiles([file.path]);
+  if (success) {
+    emit('file-deleted', file.path);
+  } else {
+    toast('删除文件失败');
+  }
 };
 
 const handleDeleteFileCancel = (file) => {

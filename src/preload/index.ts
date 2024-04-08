@@ -5,8 +5,10 @@ import { IPCMessage } from '../common/message';
 // Custom APIs for renderer
 const api = {
   ping: () => ipcRenderer.invoke(IPCMessage.Ping),
-  getFolders: (folder) => ipcRenderer.invoke(IPCMessage.GetFolders, folder),
-  scanDuplicatedFiles: (folder) => ipcRenderer.invoke(IPCMessage.ScanDuplicatedFiles, folder),
+  getFolders: (folder: string) => ipcRenderer.invoke(IPCMessage.GetFolders, folder),
+  scanDuplicatedFiles: (folder: string) =>
+    ipcRenderer.invoke(IPCMessage.ScanDuplicatedFiles, folder),
+  deleteFiles: (files: string[]) => ipcRenderer.invoke(IPCMessage.DeleteFiles, files),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
