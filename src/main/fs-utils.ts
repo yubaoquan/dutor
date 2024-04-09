@@ -39,7 +39,7 @@ export const getDirs = async (rootDir = '/') => {
   }
 };
 
-export const scanDuplicatedFiles = async (dir: string) => {
+export const scanDuplicatedFiles = async ({ dir, beforeHash, afterHash }) => {
   if (!dir) return [];
   const tasks: Promise<void>[] = [];
   const tree = dirTree(dir, { attributes: ['size', 'type'] });
@@ -52,14 +52,14 @@ export const scanDuplicatedFiles = async (dir: string) => {
         tasks.push(
           new Promise<void>(async (resolve) => {
             try {
-              console.info(`scan`, node.path);
+              beforeHash(node);
               const hash = await md5(node.path);
+              afterHash(node, hash);
               if (!ret[hash]) {
                 ret[hash] = [node];
               } else {
                 ret[hash].push(node);
               }
-              console.info(`hash`, hash);
             } catch (e) {
               console.error(e);
             }
@@ -79,6 +79,7 @@ export const scanDuplicatedFiles = async (dir: string) => {
   await Promise.all(tasks);
 
   console.info(`ret`, ret);
+  console.info(`tree`, tree);
 
   return ret;
 };

@@ -1,5 +1,5 @@
 import { getAllDrives, getDirs, scanDuplicatedFiles, batchDeleteFiles } from './fs-utils';
-import { IPCMessage } from '../common/message';
+import { IPCMessage, MainMessage } from '../common/message';
 
 const handleGetFolders = async (ipcMain) => {
   ipcMain.handle(IPCMessage.GetFolders, async (_event, folder) => {
@@ -9,9 +9,17 @@ const handleGetFolders = async (ipcMain) => {
   });
 };
 
-const handleDuplicatedScanFiles = async (ipcMain) => {
+const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
   ipcMain.handle(IPCMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
-    const result = await scanDuplicatedFiles(folderPath);
+    const result = await scanDuplicatedFiles({
+      dir: folderPath,
+      beforeHash(node) {
+        mainWindow.webContents.send(MainMessage.BeforeHash, node.name);
+      },
+      afterHash(node, hash) {
+        mainWindow.webContents.send(MainMessage.AfterHash, node.name, hash);
+      },
+    });
     console.info(result);
     return result;
   });
@@ -35,9 +43,16 @@ const handleBatchDeleteFiles = async (ipcMain) => {
   );
 };
 
-export const registerHandlers = (ipcMain) => {
+const handleOpenDevTools = ({ ipcMain, mainWindow }) => {
+  ipcMain.handle(IPCMessage.OpenDevTools, (_event, open: boolean) =>
+    open ? mainWindow.webContents.openDevTools() : mainWindow.webContents.closeDevTools(),
+  );
+};
+
+export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleGetFolders(ipcMain);
-  handleDuplicatedScanFiles(ipcMain);
+  handleDuplicatedScanFiles({ ipcMain, mainWindow });
   handlePing(ipcMain);
   handleBatchDeleteFiles(ipcMain);
+  handleOpenDevTools({ ipcMain, mainWindow });
 };

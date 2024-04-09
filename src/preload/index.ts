@@ -9,6 +9,13 @@ const api = {
   scanDuplicatedFiles: (folder: string) =>
     ipcRenderer.invoke(IPCMessage.ScanDuplicatedFiles, folder),
   deleteFiles: (files: string[]) => ipcRenderer.invoke(IPCMessage.DeleteFiles, files),
+  openDevTools: (open: boolean) => ipcRenderer.invoke(IPCMessage.OpenDevTools, open),
+  listenFromMain: (channel: string, listener: (...args: any[]) => void) => {
+    ipcRenderer.on(channel, (_, ...args) => {
+      console.info(args);
+      listener(...args);
+    });
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

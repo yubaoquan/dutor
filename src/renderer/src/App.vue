@@ -1,18 +1,20 @@
 <template>
-  <div v-if="!isHomePage" class="action">
-    <a target="_blank" rel="noreferrer" @click="handleHomeClick">Home</a>
-  </div>
-  <RouterView />
+  <router-view></router-view>
+  <v-container>
+    <v-row align="center" justify="center">
+      <v-col cols="auto">
+        <v-btn size="x-small" @click="handleDebugClick">Debug</v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { ref } from 'vue';
 
-const router = useRouter();
-const route = useRoute();
-const isHomePage = computed(() => route.path === '/');
-const handleHomeClick = async () => {
-  router.push('/');
+const devOpened = ref(false);
+const handleDebugClick = () => {
+  window.api.openDevTools(!devOpened.value);
+  devOpened.value = !devOpened.value;
 };
 </script>

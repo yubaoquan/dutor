@@ -26,7 +26,6 @@ const treeData = ref<TreeSelectProps['treeData']>([]);
 // { id: 1, pId: 0, value: '1', title: 'Expand to load' },
 onMounted(async () => {
   const folders = await window.api.getFolders();
-  console.info(`folders`, folders);
   treeData.value = folders.map((item) => ({
     id: item.path,
     pId: '',

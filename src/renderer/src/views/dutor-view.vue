@@ -24,12 +24,10 @@
         </v-sheet>
       </v-col>
       <v-col cols="12" sm="8">
-        <div class="text-right pr-2">
-          <v-btn color="red" :disabled="!selectedFileIds.length" @click="handleDeleteAllClick"
-            >删除全部勾选项</v-btn
-          >
+        <div v-if="selectedFileIds.length" class="text-right pr-2">
+          <v-btn color="red" @click="handleDeleteAllClick">删除全部勾选项</v-btn>
         </div>
-        <v-sheet class="ma-2 pa-2">
+        <v-sheet v-if="filesGroups.length" class="ma-2 pa-2">
           <file-list
             v-for="filesGroup in filesGroups"
             :key="filesGroup.hash"
