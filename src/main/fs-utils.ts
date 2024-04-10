@@ -39,9 +39,23 @@ export const getDirs = async (rootDir = '/') => {
   }
 };
 
-export const scanDuplicatedFiles = async ({ dir, beforeHash, afterHash }) => {
+export const scanDuplicatedFiles = async ({
+  dir,
+  beforeHash,
+  afterHash,
+  beforeAll,
+}: {
+  dir: string;
+  beforeHash?: (node: any) => void;
+  afterHash: (node: any, hash: string) => void;
+  beforeAll: (nodes: any[]) => void;
+}) => {
   if (!dir) return [];
-  const tasks: Promise<void>[] = [];
+  type Task = {
+    node: any;
+    start: () => Promise<void>;
+  };
+  const tasks: Task[] = [];
   const tree = dirTree(dir, { attributes: ['size', 'type'] });
 
   const ret = {};
@@ -49,23 +63,25 @@ export const scanDuplicatedFiles = async ({ dir, beforeHash, afterHash }) => {
   const walk = (nodes) => {
     nodes.forEach((node) => {
       if (node.type === 'file') {
-        tasks.push(
-          new Promise<void>(async (resolve) => {
-            try {
-              beforeHash(node);
-              const hash = await md5(node.path);
-              afterHash(node, hash);
-              if (!ret[hash]) {
-                ret[hash] = [node];
-              } else {
-                ret[hash].push(node);
+        tasks.push({
+          node,
+          start: () =>
+            new Promise<void>(async (resolve) => {
+              try {
+                beforeHash?.(node);
+                const hash = await md5(node.path);
+                afterHash(node, hash);
+                if (!ret[hash]) {
+                  ret[hash] = [node];
+                } else {
+                  ret[hash].push(node);
+                }
+              } catch (e) {
+                console.error(e);
               }
-            } catch (e) {
-              console.error(e);
-            }
-            resolve();
-          }),
-        );
+              resolve();
+            }),
+        });
       }
 
       if (node.type === 'directory') {
@@ -75,8 +91,10 @@ export const scanDuplicatedFiles = async ({ dir, beforeHash, afterHash }) => {
   };
 
   walk(tree.children);
+  const allNodesToScan = tasks.map((task) => task.node);
+  beforeAll(allNodesToScan);
 
-  await Promise.all(tasks);
+  await Promise.all(tasks.map((task) => task.start()));
 
   console.info(`ret`, ret);
   console.info(`tree`, tree);

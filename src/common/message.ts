@@ -11,4 +11,5 @@ export const enum IPCMessage {
 export const enum MainMessage {
   BeforeHash = 'before-hash',
   AfterHash = 'after-hash',
+  BeforeAllHash = 'before-all-hash',
 }

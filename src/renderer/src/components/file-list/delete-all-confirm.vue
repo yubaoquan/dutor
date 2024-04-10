@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    :model-value="props.visible"
-    max-width="400"
-    persistent
-    transition="dialog-top-transition"
-  >
+  <v-dialog :model-value="visible" max-width="400" persistent transition="dialog-top-transition">
     <v-card prepend-icon="mdi-help-circle" text="将删除全部勾选的文件" title="确定删除吗?">
       <template #actions>
         <v-spacer></v-spacer>
@@ -19,7 +14,7 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue';
 
-const props = defineProps<{
+defineProps<{
   visible: boolean;
 }>();
 

@@ -13,11 +13,11 @@ const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
   ipcMain.handle(IPCMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
     const result = await scanDuplicatedFiles({
       dir: folderPath,
-      beforeHash(node) {
-        mainWindow.webContents.send(MainMessage.BeforeHash, node.name);
+      beforeAll(nodes) {
+        mainWindow.webContents.send(MainMessage.BeforeAllHash, nodes);
       },
       afterHash(node, hash) {
-        mainWindow.webContents.send(MainMessage.AfterHash, node.name, hash);
+        mainWindow.webContents.send(MainMessage.AfterHash, node, hash);
       },
     });
     console.info(result);

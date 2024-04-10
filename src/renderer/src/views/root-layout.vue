@@ -18,7 +18,6 @@
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { MainMessage } from '../../../common/message';
 
 const route = useRoute();
 
@@ -49,14 +48,6 @@ watch(
 
 onMounted(() => {
   initBreadcrumbs();
-});
-
-window.api.listenFromMain(MainMessage.BeforeHash, (path) => {
-  console.info(`before hash of file`, path);
-});
-
-window.api.listenFromMain(MainMessage.AfterHash, (path, hash) => {
-  console.info(` hash of file ${path} is ${hash}`);
 });
 </script>
 

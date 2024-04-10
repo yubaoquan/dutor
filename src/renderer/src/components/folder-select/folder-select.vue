@@ -9,7 +9,7 @@
     :tree-data="treeData"
     tree-node-filter-prop="label"
     :load-data="onLoadData"
-    :list-height="400"
+    :list-height="800"
     @select="handleNodeSelect"
   ></tree-select>
 </template>

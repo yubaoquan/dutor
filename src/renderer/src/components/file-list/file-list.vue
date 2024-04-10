@@ -72,13 +72,8 @@
 
 <script lang="ts" setup>
 import { ref, defineProps, defineEmits, toRaw } from 'vue';
-import useDeleteAll from './delete-all-confirm-mixin';
-
-type FileItem = {
-  id: string;
-  name: string;
-  path: string;
-};
+import useDeleteAll from './use-delete-all-confirm';
+import type { FileItem } from '../../types/index';
 
 const emit = defineEmits<{
   (e: 'select-file', id: string): void;

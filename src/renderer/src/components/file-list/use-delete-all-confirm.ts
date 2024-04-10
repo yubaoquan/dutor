@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import DeleteAllConfirm from './delete-all-confirm.vue';
 
-export default function useDeleteAll() {
+export default () => {
   const deleteAllAsk = ref(false);
 
   const handleDeleteAllCancel = () => {
@@ -18,4 +18,4 @@ export default function useDeleteAll() {
     handleDeleteAllCancel,
     handleDeleteAllClick,
   };
-}
+};
