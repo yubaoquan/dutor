@@ -1,8 +1,14 @@
-import { getAllDrives, getDirs, scanDuplicatedFiles, batchDeleteFiles } from './fs-utils';
-import { IPCMessage, MainMessage } from '../common/message';
+import {
+  getAllDrives,
+  getDirs,
+  scanDuplicatedFiles,
+  batchDeleteFiles,
+  selectFolder,
+} from './fs-utils';
+import { RendererMessage, MainMessage } from '../common/message';
 
 const handleGetFolders = async (ipcMain) => {
-  ipcMain.handle(IPCMessage.GetFolders, async (_event, folder) => {
+  ipcMain.handle(RendererMessage.GetFolders, async (_event, folder) => {
     const folders = folder ? await getDirs(folder) : getAllDrives();
 
     return folders;
@@ -10,7 +16,7 @@ const handleGetFolders = async (ipcMain) => {
 };
 
 const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
-  ipcMain.handle(IPCMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
+  ipcMain.handle(RendererMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
     const result = await scanDuplicatedFiles({
       dir: folderPath,
       beforeAll(nodes) {
@@ -27,7 +33,7 @@ const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
 
 const handlePing = async (ipcMain) => {
   ipcMain.handle(
-    IPCMessage.Ping,
+    RendererMessage.Ping,
     async () =>
       new Promise<string>((resolve) => {
         setTimeout(() => {
@@ -38,15 +44,19 @@ const handlePing = async (ipcMain) => {
 };
 
 const handleBatchDeleteFiles = async (ipcMain) => {
-  ipcMain.handle(IPCMessage.DeleteFiles, async (_event, filePaths: string[]) =>
+  ipcMain.handle(RendererMessage.DeleteFiles, async (_event, filePaths: string[]) =>
     batchDeleteFiles(filePaths),
   );
 };
 
 const handleOpenDevTools = ({ ipcMain, mainWindow }) => {
-  ipcMain.handle(IPCMessage.OpenDevTools, (_event, open: boolean) =>
+  ipcMain.handle(RendererMessage.OpenDevTools, (_event, open: boolean) =>
     open ? mainWindow.webContents.openDevTools() : mainWindow.webContents.closeDevTools(),
   );
+};
+
+const handleSelectFolder = async (ipcMain) => {
+  ipcMain.handle(RendererMessage.SelectFolder, () => selectFolder());
 };
 
 export const registerHandlers = ({ ipcMain, mainWindow }) => {
@@ -55,4 +65,5 @@ export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handlePing(ipcMain);
   handleBatchDeleteFiles(ipcMain);
   handleOpenDevTools({ ipcMain, mainWindow });
+  handleSelectFolder(ipcMain);
 };

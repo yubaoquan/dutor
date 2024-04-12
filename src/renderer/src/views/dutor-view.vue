@@ -17,28 +17,27 @@
     </template>
     <template v-else>
       <v-row>
-        <v-col>
-          <v-sheet class="ma-2 pa-2">
-            <folder-select @select="handleFolderSelect"></folder-select>
-            <div class="mt-4 text-right">
-              <v-btn
-                color="primary"
-                :loading="isScanning"
-                :disabled="!targetFolder"
-                @click="handleScanClick"
-                >开始扫描</v-btn
-              >
-            </div>
-          </v-sheet>
+        <v-col cols="2">
+          <v-btn color="#66BB6A" @click="handleSelectFolderClick">选择文件夹</v-btn>
+        </v-col>
+        <v-col cols="4">{{ targetFolder }}</v-col>
+        <v-col cols="6" class="text-right">
+          <v-btn
+            color="primary"
+            :loading="isScanning"
+            :disabled="!targetFolder"
+            @click="handleScanClick"
+            >开始扫描</v-btn
+          >
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row v-if="filesGroups.length">
         <v-col>
           <div v-if="selectedFileIds.length" class="text-right pr-2">
             <v-btn color="red" @click="handleDeleteAllClick">删除全部勾选项</v-btn>
           </div>
-          <v-sheet v-if="filesGroups.length" class="ma-2 pa-2">
+          <v-sheet class="ma-2 pa-2">
             <file-list
               v-for="filesGroup in filesGroups"
               :key="filesGroup.hash"
@@ -66,7 +65,6 @@ import { ref, provide, toRaw } from 'vue';
 import useDeleteAll from '@renderer/components/file-list/use-delete-all-confirm';
 import ScanProgress from '@renderer/components/scan-progress/scan-progress.vue';
 import FileList from '@/components/file-list/file-list.vue';
-import FolderSelect from '@/components/folder-select/folder-select.vue';
 import { MainMessage } from '../../../common/message';
 import type { FileItem } from '../types/index';
 import useScanProgress from '../components/scan-progress/use-progress';
@@ -121,10 +119,6 @@ const handleScanClick = async () => {
   }
 };
 
-const handleFolderSelect = (v) => {
-  targetFolder.value = v;
-};
-
 const handleFileSelect = (id: string) => {
   if (!selectedFileIds.value.includes(id)) {
     selectedFileIds.value.push(id);
@@ -158,6 +152,12 @@ const handleDeleteFiles = async (paths: string[]) => {
 const handleDeleteAllConfirm = () => {
   deleteAllAsk.value = false;
   handleDeleteFiles(toRaw(selectedFileIds.value));
+};
+
+const handleSelectFolderClick = async () => {
+  const folderPath = await window.api.selectFolder();
+  console.info(`folder path`, folderPath);
+  targetFolder.value = folderPath;
 };
 
 window.api.listenFromMain(MainMessage.BeforeHash, (path) => {

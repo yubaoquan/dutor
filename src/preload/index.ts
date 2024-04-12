@@ -1,21 +1,22 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import { IPCMessage } from '../common/message';
+import { RendererMessage } from '../common/message';
 
 // Custom APIs for renderer
 const api = {
-  ping: () => ipcRenderer.invoke(IPCMessage.Ping),
-  getFolders: (folder: string) => ipcRenderer.invoke(IPCMessage.GetFolders, folder),
+  ping: () => ipcRenderer.invoke(RendererMessage.Ping),
+  getFolders: (folder: string) => ipcRenderer.invoke(RendererMessage.GetFolders, folder),
   scanDuplicatedFiles: (folder: string) =>
-    ipcRenderer.invoke(IPCMessage.ScanDuplicatedFiles, folder),
-  deleteFiles: (files: string[]) => ipcRenderer.invoke(IPCMessage.DeleteFiles, files),
-  openDevTools: (open: boolean) => ipcRenderer.invoke(IPCMessage.OpenDevTools, open),
+    ipcRenderer.invoke(RendererMessage.ScanDuplicatedFiles, folder),
+  deleteFiles: (files: string[]) => ipcRenderer.invoke(RendererMessage.DeleteFiles, files),
+  openDevTools: (open: boolean) => ipcRenderer.invoke(RendererMessage.OpenDevTools, open),
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => {
     ipcRenderer.on(channel, (_, ...args) => {
       console.info(args);
       listener(...args);
     });
   },
+  selectFolder: () => ipcRenderer.invoke(RendererMessage.SelectFolder),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

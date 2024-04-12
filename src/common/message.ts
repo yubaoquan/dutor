@@ -1,10 +1,11 @@
 /** 前端向后端发送的消息 */
-export const enum IPCMessage {
+export const enum RendererMessage {
   Ping = 'ping',
   GetFolders = 'get-folders',
   ScanDuplicatedFiles = 'scan-duplicated-files',
   DeleteFiles = 'delete-files',
   OpenDevTools = 'open-dev-tools',
+  SelectFolder = 'select-folder',
 }
 
 /** 后端向前端发送的消息 */

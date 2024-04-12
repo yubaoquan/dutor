@@ -9,8 +9,8 @@
 
   <v-row>
     <v-col>
-      <v-expansion-panels>
-        <v-expansion-panel title="查看详情">
+      <v-expansion-panels model-value="detail">
+        <v-expansion-panel title="查看详情" value="detail">
           <v-expansion-panel-text>
             <v-container fluid>
               <v-row>

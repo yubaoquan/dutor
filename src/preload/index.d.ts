@@ -7,6 +7,7 @@ type API = {
   deleteFiles: (files: string[]) => Promise<boolean>
   openDevTools: (open: boolean) => void
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => void
+  selectFolder: () => string
 }
 
 declare global {

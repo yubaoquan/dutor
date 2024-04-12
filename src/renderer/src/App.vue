@@ -1,6 +1,6 @@
 <template>
   <router-view></router-view>
-  <v-container>
+  <v-container class="absolute bottom-0">
     <v-row align="center" justify="center">
       <v-col cols="auto">
         <v-btn size="x-small" @click="handleDebugClick">Debug</v-btn>

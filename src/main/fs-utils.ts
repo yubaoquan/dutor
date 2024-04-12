@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import dirTree from 'directory-tree';
 import md5 from 'md5-file';
+import { dialog } from 'electron';
 import type { FolderModel } from '../common/types';
 
 export const getAllDrives = () => {
@@ -110,4 +111,12 @@ export const batchDeleteFiles = async (filePaths: string[]) => {
     console.error(e);
     return false;
   }
+};
+
+export const selectFolder = async () => {
+  const folderPaths = dialog.showOpenDialogSync({
+    properties: ['openDirectory'],
+  });
+
+  return folderPaths?.[0];
 };
