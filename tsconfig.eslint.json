@@ -1,9 +1,0 @@
-{
-  "files": [
-    ".eslintrc.cjs",
-    "vite.config.ts",
-    "src/**/*.ts",
-    "src/**/*.vue"
-  ],
-  "include": ["src", "*.js"]
-}
