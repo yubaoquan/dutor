@@ -72,13 +72,13 @@
         </v-list-item>
       </v-list>
     </v-card>
-  </div>
 
-  <delete-all-confirm
-    :visible="deleteAllAsk"
-    @cancel="handleDeleteAllCancel"
-    @confirm="handleDeleteAllConfirm"
-  ></delete-all-confirm>
+    <delete-all-confirm
+      :visible="deleteAllAsk"
+      @cancel="handleDeleteAllCancel"
+      @confirm="handleDeleteAllConfirm"
+    ></delete-all-confirm>
+  </div>
 </template>
 
 <script lang="ts" setup>

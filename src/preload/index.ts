@@ -12,7 +12,6 @@ const api = {
   openDevTools: (open: boolean) => ipcRenderer.invoke(RendererMessage.OpenDevTools, open),
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => {
     ipcRenderer.on(channel, (_, ...args) => {
-      console.info(args);
       listener(...args);
     });
   },

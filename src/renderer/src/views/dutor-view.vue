@@ -18,7 +18,9 @@
     <template v-else>
       <v-row>
         <v-col cols="2">
-          <v-btn color="#66BB6A" @click="handleSelectFolderClick">选择文件夹</v-btn>
+          <v-btn color="#66BB6A" @click="handleSelectFolderClick">{{
+            $t('dutor.selectFolder')
+          }}</v-btn>
         </v-col>
         <v-col cols="8">{{ targetFolder }}</v-col>
         <v-col cols="2" class="text-right">
@@ -27,7 +29,7 @@
             :loading="isScanning"
             :disabled="!targetFolder"
             @click="handleScanClick"
-            >开始扫描</v-btn
+            >{{ $t('dutor.startScan') }}</v-btn
           >
         </v-col>
       </v-row>
@@ -61,6 +63,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n';
 import { ref, provide, toRaw } from 'vue';
 import useDeleteAll from '@renderer/components/file-list/use-delete-all-confirm';
 import ScanProgress from '@renderer/components/scan-progress/scan-progress.vue';
@@ -69,6 +72,7 @@ import { MainMessage } from '../../../common/message';
 import type { FileItem } from '../types/index';
 import useScanProgress from '../components/scan-progress/use-progress';
 
+const { t } = useI18n({ useScope: 'global' });
 type HashItem = {
   hash: string;
   files: FileItem[];
@@ -98,7 +102,6 @@ const handleScanClick = async () => {
   isScanning.value = true;
   resetProgress();
   const result = await window.api.scanDuplicatedFiles(targetFolder.value);
-  console.info('scan result', result);
 
   isScanning.value = false;
   filesGroups.value = Object.entries(result)
@@ -114,7 +117,7 @@ const handleScanClick = async () => {
   selectedFileIds.value = [];
 
   if (filesGroups.value.length === 0) {
-    toast('没有发现重复文件');
+    toast(t('dutor.noDuplicatedFilesFound'));
   }
 };
 
@@ -156,7 +159,6 @@ const handleDeleteAllConfirm = () => {
 
 const handleSelectFolderClick = async () => {
   const folderPath = await window.api.selectFolder();
-  console.info(`folder path`, folderPath);
   targetFolder.value = folderPath;
 };
 

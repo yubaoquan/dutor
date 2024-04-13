@@ -1,0 +1,10 @@
+{
+  "common": {
+    "language": "语言"
+  },
+  "dutor": {
+    "selectFolder": "选择文件夹",
+    "startScan": "开始扫描",
+    "noDuplicatedFilesFound": "没有找到重复文件"
+  }
+}

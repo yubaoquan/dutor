@@ -1,5 +1,6 @@
 <template>
   <router-view></router-view>
+
   <v-container class="fixed bottom-0">
     <v-row align="center" justify="center">
       <v-col cols="auto">

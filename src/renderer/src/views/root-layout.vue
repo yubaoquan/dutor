@@ -1,54 +1,10 @@
 <template>
-  <v-breadcrumbs :items="breadscrumbPieces">
-    <template #divider>
-      <v-icon icon="mdi-chevron-right"></v-icon>
-    </template>
-    <template #item="{ item }">
-      <v-breadcrumbs-item
-        v-bind="item"
-        tag="span"
-        :title="item.title"
-        :to="item.to"
-      ></v-breadcrumbs-item>
-    </template>
-  </v-breadcrumbs>
+  <common-header></common-header>
   <router-view></router-view>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-
-const route = useRoute();
-
-type BreadcrumbPiece = {
-  title: string;
-  disabled: boolean;
-  to: string;
-};
-
-const breadscrumbPieces = ref<BreadcrumbPiece[]>([]);
-
-const initBreadcrumbs = () => {
-  breadscrumbPieces.value = route.matched
-    .filter((item) => !!item.meta?.title)
-    .map((item) => ({
-      title: (item.meta.title as string) || item.path,
-      disabled: route.path === item.path,
-      to: item.path,
-    }));
-};
-
-watch(
-  () => route.path,
-  () => {
-    initBreadcrumbs();
-  },
-);
-
-onMounted(() => {
-  initBreadcrumbs();
-});
+import commonHeader from '@renderer/components/common-header/common-header.vue';
 </script>
 
 <style lang="less" scoped></style>

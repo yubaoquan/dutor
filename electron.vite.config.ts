@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import { defineConfig, externalizeDepsPlugin, bytecodePlugin } from 'electron-vite';
 import vue from '@vitejs/plugin-vue';
 import VueDevTools from 'vite-plugin-vue-devtools';
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 
 export default defineConfig({
   main: {
@@ -19,6 +20,14 @@ export default defineConfig({
         '@': fileURLToPath(new URL('./src/renderer/src', import.meta.url)),
       },
     },
-    plugins: [vue(), VueDevTools(), vuetify({ autoImport: true })],
+    plugins: [
+      vue(),
+      VueDevTools(),
+      vuetify({ autoImport: true }),
+
+      VueI18nPlugin({
+        include: [resolve(__dirname, 'src/renderer/src/lang/**/*')],
+      }),
+    ],
   },
 });

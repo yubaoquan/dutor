@@ -7,5 +7,13 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "i18n-ally.localesPaths": [
+    "src/renderer/src/lang"
+  ],
+  "i18n-ally.displayLanguage": "cn",
+  "i18n-ally.enabledFrameworks": ["vue"],
+  "i18n-ally.dirStructure": "auto",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.pathMatcher": "{locale}.{ext}",
 }
