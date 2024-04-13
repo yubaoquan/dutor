@@ -8,6 +8,7 @@ type API = {
   openDevTools: (open: boolean) => void
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => void
   selectFolder: () => string
+  openFolder: (folder: string) => void
 }
 
 declare global {

@@ -20,8 +20,8 @@
         <v-col cols="2">
           <v-btn color="#66BB6A" @click="handleSelectFolderClick">选择文件夹</v-btn>
         </v-col>
-        <v-col cols="4">{{ targetFolder }}</v-col>
-        <v-col cols="6" class="text-right">
+        <v-col cols="8">{{ targetFolder }}</v-col>
+        <v-col cols="2" class="text-right">
           <v-btn
             color="primary"
             :loading="isScanning"
@@ -43,8 +43,8 @@
               :key="filesGroup.hash"
               :hash="filesGroup.hash"
               :files="filesGroup.files"
-              @select-file="handleFileSelect"
-              @unselect-file="handleFileUnselect"
+              @select-files="handleFileSelect"
+              @unselect-files="handleFileUnselect"
               @delete-files="handleDeleteFiles"
             ></file-list>
           </v-sheet>
@@ -106,7 +106,6 @@ const handleScanClick = async () => {
     .map(([hash, files]) => ({
       hash,
       files: files.map((file) => ({
-        id: file.path,
         name: file.name,
         path: file.path,
       })),
@@ -119,16 +118,17 @@ const handleScanClick = async () => {
   }
 };
 
-const handleFileSelect = (id: string) => {
-  if (!selectedFileIds.value.includes(id)) {
-    selectedFileIds.value.push(id);
-  }
+const handleFileSelect = (ids: string[]) => {
+  ids.forEach((id) => {
+    if (!selectedFileIds.value.includes(id)) {
+      selectedFileIds.value.push(id);
+    }
+  });
 };
 
-const handleFileUnselect = (id: string) => {
-  if (selectedFileIds.value.includes(id)) {
-    selectedFileIds.value = selectedFileIds.value.filter((item) => item !== id);
-  }
+const handleFileUnselect = (ids: string[]) => {
+  const toUnselect = ids.filter((id) => selectedFileIds.value.includes(id));
+  selectedFileIds.value = selectedFileIds.value.filter((item) => !toUnselect.includes(item));
 };
 
 const updateFiles = (deleted: string[]) => {

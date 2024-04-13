@@ -17,6 +17,7 @@ const api = {
     });
   },
   selectFolder: () => ipcRenderer.invoke(RendererMessage.SelectFolder),
+  openFolder: (folder: string) => ipcRenderer.invoke(RendererMessage.OpenFolder, folder),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

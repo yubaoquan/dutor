@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import dirTree from 'directory-tree';
 import md5 from 'md5-file';
-import { dialog } from 'electron';
+import { dialog, shell } from 'electron';
 import type { FolderModel } from '../common/types';
 
 export const getAllDrives = () => {
@@ -119,4 +119,17 @@ export const selectFolder = async () => {
   });
 
   return folderPaths?.[0];
+};
+
+export const openFolder = (folderPath: string) => {
+  try {
+    // if folderPath is a file, open its parent folder
+    return fs.lstatSync(folderPath).isFile()
+      ? shell.openPath(path.dirname(folderPath))
+      : shell.openPath(folderPath);
+  } catch (error) {
+    console.error('Failed to open folder:', error);
+  }
+
+  return undefined; // Add a return statement at the end of the function
 };

@@ -4,6 +4,7 @@ import {
   scanDuplicatedFiles,
   batchDeleteFiles,
   selectFolder,
+  openFolder,
 } from './fs-utils';
 import { RendererMessage, MainMessage } from '../common/message';
 
@@ -59,6 +60,12 @@ const handleSelectFolder = async (ipcMain) => {
   ipcMain.handle(RendererMessage.SelectFolder, () => selectFolder());
 };
 
+const handleOpenFolder = async (ipcMain) => {
+  ipcMain.handle(RendererMessage.OpenFolder, (_event, folderPath: string) =>
+    openFolder(folderPath),
+  );
+};
+
 export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleGetFolders(ipcMain);
   handleDuplicatedScanFiles({ ipcMain, mainWindow });
@@ -66,4 +73,5 @@ export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleBatchDeleteFiles(ipcMain);
   handleOpenDevTools({ ipcMain, mainWindow });
   handleSelectFolder(ipcMain);
+  handleOpenFolder(ipcMain);
 };
