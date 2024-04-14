@@ -141,7 +141,7 @@ const updateFiles = (deleted: string[]) => {
   filesGroups.value.forEach((group) => {
     group.files = group.files.filter((file) => !deleted.includes(file.path));
   });
-  filesGroups.value = filesGroups.value.filter((group) => group.files.length > 0);
+  filesGroups.value = filesGroups.value.filter((group) => group.files.length > 1);
 };
 
 const handleDeleteFiles = async (paths: string[]) => {
