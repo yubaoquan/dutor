@@ -17,6 +17,8 @@ const api = {
   },
   selectFolder: () => ipcRenderer.invoke(RendererMessage.SelectFolder),
   openFolder: (folder: string) => ipcRenderer.invoke(RendererMessage.OpenFolder, folder),
+  toggleTheme: () => ipcRenderer.invoke(RendererMessage.ThemeToggle),
+  getIsDark: () => ipcRenderer.invoke(RendererMessage.GetIsDark),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

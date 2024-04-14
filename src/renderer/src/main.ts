@@ -4,6 +4,7 @@ import { createI18n } from 'vue-i18n';
 import messages from '@intlify/unplugin-vue-i18n/messages';
 import vuetify from './plugins/vuetify';
 
+import './assets/base.css';
 import './assets/style.css';
 import App from './App.vue';
 import router from './router/index';

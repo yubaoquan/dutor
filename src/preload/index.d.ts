@@ -7,8 +7,10 @@ type API = {
   deleteFiles: (files: string[]) => Promise<boolean>
   openDevTools: (open: boolean) => void
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => void
-  selectFolder: () => string
+  selectFolder: () => Promise<string>
   openFolder: (folder: string) => void
+  toggleTheme: () => Promise<boolean>
+  getIsDark: () => Promise<boolean>
 }
 
 declare global {

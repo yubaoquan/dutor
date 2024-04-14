@@ -1,6 +1,6 @@
 <template>
   <div class="index-page">
-    <div class="text-3xl font-bold underline">欢迎使用</div>
+    <div class="text-3xl font-bold underline">{{ $t('common.welcome') }}</div>
     <v-container>
       <v-row align="center" justify="center">
         <v-col v-for="(item, i) in features" :key="i" cols="auto">
@@ -16,7 +16,7 @@
             </v-card-item>
 
             <v-card-actions>
-              <v-btn @click="handleItemClick(item)">使用</v-btn>
+              <v-btn @click="handleItemClick(item)">{{ $t('common.use') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -26,18 +26,27 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+const { t } = useI18n({ useScope: 'global' });
+
 const router = useRouter();
-const features = [
+const features = computed(() => [
   {
-    title: '文件查重',
-    headline: '文件查重',
-    caption: '管理文件夹中内容重复的文件',
+    title: t('route.dutor'),
+    headline: t('route.dutor'),
+    caption: t('dutor.pageDescription'),
     path: '/dutor',
   },
-  { title: 'about', headline: 'about', caption: 'building', path: '/about' },
-];
+  {
+    title: t('route.about'),
+    headline: t('route.about'),
+    caption: t('common.building'),
+    path: '/about',
+  },
+]);
 
 const handleItemClick = (item) => {
   router.push(item.path);

@@ -12,22 +12,26 @@
       <v-expansion-panels model-value="detail">
         <v-expansion-panel title="查看详情" value="detail">
           <v-expansion-panel-text>
-            <v-container fluid>
-              <v-row>
-                <v-col>
-                  <div>扫描中 {{ scanningFiles.length }}</div>
-                  <div class="scan-list">
-                    <div v-for="file in scanningFiles" :key="file.path">{{ file.path }}</div>
+            <div class="flex justify-between items-start">
+              <div class="grow shrink-0 w-1/2 p-2">
+                <div>{{ $t('dutor.scanning') }} {{ scanningFiles.length }}</div>
+                <div class="scan-list">
+                  <div v-for="file in scanningFiles" :key="file.path" class="truncate">
+                    {{ file.path }}
+                    <v-tooltip location="top" activator="parent">{{ file.path }}</v-tooltip>
                   </div>
-                </v-col>
-                <v-col>
-                  <div>已扫描 {{ finishedFiles.length }}</div>
-                  <div class="scan-list">
-                    <div v-for="file in finishedFiles" :key="file.path">{{ file.path }}</div>
+                </div>
+              </div>
+              <div class="grow shrink-0 w-1/2 p-2">
+                <div>{{ $t('dutor.finished') }} {{ finishedFiles.length }}</div>
+                <div class="scan-list">
+                  <div v-for="file in finishedFiles" :key="file.path" class="truncate">
+                    {{ file.path }}
+                    <v-tooltip location="top" activator="parent">{{ file.path }}</v-tooltip>
                   </div>
-                </v-col>
-              </v-row>
-            </v-container>
+                </div>
+              </div>
+            </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>

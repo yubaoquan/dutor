@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import HomeView from '../views/home-view.vue';
 import RootLayout from '../views/root-layout.vue';
 
 const router = createRouter({
@@ -10,7 +10,7 @@ const router = createRouter({
       name: 'home',
       component: RootLayout,
       meta: {
-        title: 'Home',
+        title: 'route.home',
       },
       children: [
         {
@@ -23,7 +23,7 @@ const router = createRouter({
           name: 'dutor',
           component: () => import('../views/dutor-view.vue'),
           meta: {
-            title: '文件查重',
+            title: 'route.dutor',
           },
         },
       ],

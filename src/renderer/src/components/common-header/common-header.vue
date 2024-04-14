@@ -14,56 +14,73 @@
       </template>
     </v-breadcrumbs>
 
-    <v-select
-      v-model="locale"
-      prepend-inner-icon="mdi-translate"
-      hide-details
-      class="grow-0 custom-select"
-      :items="languages"
-      density="compact"
-      :label="$t('common.language')"
-    ></v-select>
+    <div class="flex grow-0 justify-end mr-4">
+      <v-select
+        v-model="locale"
+        class="mr-4"
+        prepend-inner-icon="mdi-translate"
+        hide-details
+        :items="languages"
+        density="compact"
+        :label="$t('common.language')"
+      ></v-select>
+
+      <v-switch
+        :model-value="isDark"
+        false-icon="mdi-white-balance-sunny"
+        true-icon="mdi-moon-waning-crescent"
+        hide-details
+        density="compact"
+        @update:model-value="handleThemeChange"
+      ></v-switch>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useDark, useToggle } from '@vueuse/core';
+import { useThemeStore } from '@/stores/theme';
+
+const { setTheme } = useThemeStore();
+
+const isDark = useDark();
+const toggleDark = useToggle(isDark);
 
 const route = useRoute();
+const { locale, t } = useI18n({ useScope: 'global' });
 
-type BreadcrumbPiece = {
-  title: string;
-  disabled: boolean;
-  to: string;
-};
-
-const breadscrumbPieces = ref<BreadcrumbPiece[]>([]);
-
-const initBreadcrumbs = () => {
-  breadscrumbPieces.value = route.matched
+const breadscrumbPieces = computed(() =>
+  route.matched
     .filter((item) => !!item.meta?.title)
-    .map((item) => ({
-      title: (item.meta.title as string) || item.path,
-      disabled: route.path === item.path,
-      to: item.path,
-    }));
-};
-
-watch(
-  () => route.path,
-  () => initBreadcrumbs(),
+    .map((item) => {
+      const metaTitle = item.meta.title as string;
+      return {
+        title: metaTitle ? t(metaTitle) : item.path,
+        disabled: route.path === item.path,
+        to: item.path,
+      };
+    }),
 );
 
-onMounted(() => initBreadcrumbs());
-
 const languages = ref<any[]>([
-  { title: '中文', value: 'cn' },
-  { title: 'English', value: 'en' },
+  { title: '中文', value: 'cn', props: { density: 'compact' } },
+  { title: 'English', value: 'en', props: { density: 'compact' } },
 ]);
 
-const { locale } = useI18n({ useScope: 'global' });
+onMounted(async () => {
+  const isDarkFromMain = await window.api.getIsDark();
+  console.info(`isDarkFromMain: ${isDarkFromMain}`);
+  setTheme(isDarkFromMain);
+});
+
+const handleThemeChange = () => {
+  setTheme(!isDark.value);
+  toggleDark();
+  window.api.toggleTheme();
+};
 </script>
 
 <style lang="less" scoped></style>

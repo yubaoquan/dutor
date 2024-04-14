@@ -1,3 +1,4 @@
+import { nativeTheme } from 'electron/main';
 import {
   getAllDrives,
   getDirs,
@@ -66,6 +67,21 @@ const handleOpenFolder = async (ipcMain) => {
   );
 };
 
+const handleThemeToggle = async (ipcMain) => {
+  ipcMain.handle(RendererMessage.ThemeToggle, async () => {
+    if (nativeTheme.shouldUseDarkColors) {
+      nativeTheme.themeSource = 'light';
+    } else {
+      nativeTheme.themeSource = 'dark';
+    }
+    return nativeTheme.shouldUseDarkColors;
+  });
+};
+
+const handleGetIsDark = async (ipcMain) => {
+  ipcMain.handle(RendererMessage.GetIsDark, async () => nativeTheme.shouldUseDarkColors);
+};
+
 export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleGetFolders(ipcMain);
   handleDuplicatedScanFiles({ ipcMain, mainWindow });
@@ -74,4 +90,6 @@ export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleOpenDevTools({ ipcMain, mainWindow });
   handleSelectFolder(ipcMain);
   handleOpenFolder(ipcMain);
+  handleThemeToggle(ipcMain);
+  handleGetIsDark(ipcMain);
 };

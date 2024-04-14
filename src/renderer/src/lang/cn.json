@@ -1,10 +1,24 @@
 {
   "common": {
-    "language": "语言"
+    "language": "语言",
+    "building": "正在构建中",
+    "use": "使用",
+    "welcome": "欢迎使用",
+    "theme": "主题"
+  },
+  "route": {
+    "home": "首页",
+    "dutor": "文件查重",
+    "about": "关于"
   },
   "dutor": {
+    "pageDescription": "扫描文件夹中内容重复的文件",
     "selectFolder": "选择文件夹",
     "startScan": "开始扫描",
-    "noDuplicatedFilesFound": "没有找到重复文件"
+    "noDuplicatedFilesFound": "没有找到重复文件",
+    "scanning": "扫描中",
+    "finished": "已扫描",
+    "deleteAllSelectedFiles": "删除全部选中文件",
+    "failToDeleteFiles": "删除文件失败"
   }
 }

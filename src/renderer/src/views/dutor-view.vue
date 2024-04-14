@@ -37,7 +37,9 @@
       <v-row v-if="filesGroups.length">
         <v-col>
           <div v-if="selectedFileIds.length" class="text-right pr-2">
-            <v-btn color="red" @click="handleDeleteAllClick">删除全部勾选项</v-btn>
+            <v-btn color="red" @click="handleDeleteAllClick">{{
+              $t('dutor.deleteAllSelectedFiles')
+            }}</v-btn>
           </div>
           <v-sheet class="ma-2 pa-2">
             <file-list
@@ -143,12 +145,11 @@ const updateFiles = (deleted: string[]) => {
 };
 
 const handleDeleteFiles = async (paths: string[]) => {
-  console.info(`handleDeleteFiles`, paths);
   const success = await window.api.deleteFiles(paths);
   if (success) {
     updateFiles(paths);
   } else {
-    toast('删除文件失败');
+    toast(t('dutor.failToDeleteFiles'));
   }
 };
 

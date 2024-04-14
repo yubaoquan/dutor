@@ -1,10 +1,24 @@
 {
   "common": {
-    "language": "Language"
+    "language": "Language",
+    "building": "Building",
+    "use": "Use",
+    "welcome": "Welcome",
+    "theme": "Theme"
+  },
+  "route": {
+    "home": "Home",
+    "dutor": "Duplicated Files Finder",
+    "about": "About"
   },
   "dutor": {
+    "pageDescription": "Duplicated Files Finder",
     "selectFolder": "Select Folder",
     "startScan": "Start Scan",
-    "noDuplicatedFilesFound": "No duplicated files found"
+    "noDuplicatedFilesFound": "No duplicated files found",
+    "scanning": "Scanning",
+    "finished": "Finished",
+    "deleteAllSelectedFiles": "Delete All Selected Files",
+    "failToDeleteFiles": "Fail to delete files"
   }
 }

@@ -7,6 +7,8 @@ export const enum RendererMessage {
   OpenDevTools = 'open-dev-tools',
   SelectFolder = 'select-folder',
   OpenFolder = 'open-folder',
+  ThemeToggle = 'theme-toggle',
+  GetIsDark = 'get-is-dark',
 }
 
 /** 后端向前端发送的消息 */
