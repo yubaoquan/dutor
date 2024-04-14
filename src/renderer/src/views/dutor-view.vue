@@ -70,9 +70,9 @@ import { ref, provide, toRaw } from 'vue';
 import useDeleteAll from '@renderer/components/file-list/use-delete-all-confirm';
 import ScanProgress from '@renderer/components/scan-progress/scan-progress.vue';
 import FileList from '@/components/file-list/file-list.vue';
+import useScanProgress from '@renderer/components/scan-progress/use-progress';
 import { MainMessage } from '../../../common/message';
 import type { FileItem } from '../types/index';
-import useScanProgress from '../components/scan-progress/use-progress';
 
 const { t } = useI18n({ useScope: 'global' });
 type HashItem = {

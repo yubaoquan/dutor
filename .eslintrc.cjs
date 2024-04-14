@@ -30,6 +30,17 @@ module.exports = {
     ecmaVersion: 'latest',
     createDefaultProgram: true,
   },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', './src/renderer/src'],
+          ['@renderer', './src/renderer/src'],
+        ],
+        extensions: ['.ts'],
+      },
+    },
+  },
   rules: {
     'prettier/prettier': 'error',
     'no-plusplus': 'off',
