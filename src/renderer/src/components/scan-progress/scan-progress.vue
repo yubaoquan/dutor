@@ -12,22 +12,30 @@
       <v-expansion-panels model-value="detail">
         <v-expansion-panel title="查看详情" value="detail">
           <v-expansion-panel-text>
-            <div class="flex justify-between items-start">
+            <div class="flex justify-between items-start max-h-96 overflow-y-auto">
               <div class="grow shrink-0 w-1/2 p-2">
                 <div>{{ $t('dutor.scanning') }} {{ scanningFiles.length }}</div>
                 <div class="scan-list">
-                  <div v-for="file in scanningFiles" :key="file.path" class="truncate">
+                  <div
+                    v-for="file in scanningFiles"
+                    :key="file.path"
+                    class="truncate"
+                    :title="file.path"
+                  >
                     {{ file.path }}
-                    <v-tooltip location="top" activator="parent">{{ file.path }}</v-tooltip>
                   </div>
                 </div>
               </div>
               <div class="grow shrink-0 w-1/2 p-2">
                 <div>{{ $t('dutor.finished') }} {{ finishedFiles.length }}</div>
                 <div class="scan-list">
-                  <div v-for="file in finishedFiles" :key="file.path" class="truncate">
+                  <div
+                    v-for="file in finishedFiles"
+                    :key="file.path"
+                    class="truncate"
+                    :title="file.path"
+                  >
                     {{ file.path }}
-                    <v-tooltip location="top" activator="parent">{{ file.path }}</v-tooltip>
                   </div>
                 </div>
               </div>

@@ -22,6 +22,33 @@ export default () => {
     scanningFiles.value = scanningFiles.value.filter((item) => item.path !== file.path);
   };
 
+  /**
+   * @description: Start fake data for testing
+   */
+  const startFakeData = () => {
+    const fakeData = Array.from({ length: 2000 }, (_, index) => ({
+      path: `fake-path-${index}`,
+      size: 1024,
+      hash: `fake-hash-${index}`,
+    }));
+
+    allFiles.value = fakeData;
+    let scanningCount = 0;
+
+    const handle = setInterval(() => {
+      if (scanningCount < fakeData.length) {
+        const pushCountPerTime = 100;
+        const fd = fakeData.slice(scanningCount, scanningCount + pushCountPerTime);
+
+        scanningFiles.value.push(...fd);
+        scanningCount += pushCountPerTime;
+        console.info(`herex`, fd);
+      } else {
+        clearInterval(handle);
+      }
+    }, 500);
+  };
+
   return {
     allFiles,
     scanningFiles,
@@ -29,5 +56,6 @@ export default () => {
     resetProgress,
     initProgress,
     updateProgress,
+    startFakeData,
   };
 };

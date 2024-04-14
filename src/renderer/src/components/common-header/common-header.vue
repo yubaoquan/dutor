@@ -72,7 +72,6 @@ const languages = ref<any[]>([
 
 onMounted(async () => {
   const isDarkFromMain = await window.api.getIsDark();
-  console.info(`isDarkFromMain: ${isDarkFromMain}`);
   setTheme(isDarkFromMain);
 });
 

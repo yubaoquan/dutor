@@ -1,4 +1,6 @@
 <template>
+  <!-- <div @click="startFakeData">test</div> -->
+
   <v-container class="bg-surface-variant" fluid>
     <v-snackbar v-model="showMessage" location="top" :timeout="2000" rounded>
       {{ toastMessage }}
@@ -80,8 +82,16 @@ type HashItem = {
   files: FileItem[];
 };
 
-const { allFiles, scanningFiles, finishedFiles, resetProgress, initProgress, updateProgress } =
-  useScanProgress();
+const {
+  allFiles,
+  scanningFiles,
+  finishedFiles,
+  resetProgress,
+  initProgress,
+  updateProgress,
+
+  // startFakeData,
+} = useScanProgress();
 const targetFolder = ref<string>('');
 const isScanning = ref(false);
 const showMessage = ref(false);

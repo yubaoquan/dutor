@@ -4,15 +4,12 @@
       <v-toolbar color="purple" density="compact">
         <v-checkbox-btn
           v-model="allSelected"
+          class="grow-0"
           @update:model-value="handleSelectAll"
         ></v-checkbox-btn>
 
         <v-toolbar-title>
-          <v-tooltip :text="hash" location="bottom">
-            <template #activator="{ props: prps }">
-              <div v-bind="prps">{{ hash.slice(0, 20) }}</div>
-            </template>
-          </v-tooltip>
+          <div :title="hash">{{ hash.slice(0, 20) }}</div>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
@@ -40,10 +37,7 @@
           </template>
 
           <v-list-item-title>{{ file.name }}</v-list-item-title>
-          <v-list-item-subtitle
-            >{{ file.path }}
-            <v-tooltip location="top" activator="parent">{{ file.path }}</v-tooltip>
-          </v-list-item-subtitle>
+          <v-list-item-subtitle :title="file.path">{{ file.path }} </v-list-item-subtitle>
 
           <template #append>
             <v-btn
