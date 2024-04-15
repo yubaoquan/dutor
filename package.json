@@ -1,6 +1,6 @@
 {
   "name": "dutor",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Recursive detecting duplicate files in folders.",
   "main": "./out/main/index.js",
   "author": "JerryYu",
