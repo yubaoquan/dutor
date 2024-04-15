@@ -41,23 +41,22 @@ export const getDirs = async (rootDir = '/') => {
 };
 
 export const scanDuplicatedFiles = async ({
-  dir,
+  dirs,
   beforeHash,
   afterHash,
   beforeAll,
 }: {
-  dir: string;
+  dirs: string[];
   beforeHash?: (node: any) => void;
   afterHash: (node: any, hash: string) => void;
   beforeAll: (nodes: any[]) => void;
 }) => {
-  if (!dir) return [];
+  if (!dirs.length) return [];
   type Task = {
     node: any;
     start: () => Promise<void>;
   };
   const tasks: Task[] = [];
-  const tree = dirTree(dir, { attributes: ['size', 'type'] });
 
   const ret = {};
 
@@ -91,14 +90,16 @@ export const scanDuplicatedFiles = async ({
     });
   };
 
-  walk(tree.children);
+  dirs
+    .map((dir) => dirTree(dir, { attributes: ['size', 'type'] }))
+    .forEach((tree) => walk(tree.children));
+
   const allNodesToScan = tasks.map((task) => task.node);
   beforeAll(allNodesToScan);
 
   await Promise.all(tasks.map((task) => task.start()));
 
   console.info(`ret`, ret);
-  console.info(`tree`, tree);
 
   return ret;
 };
@@ -115,10 +116,10 @@ export const batchDeleteFiles = async (filePaths: string[]) => {
 
 export const selectFolder = async () => {
   const folderPaths = dialog.showOpenDialogSync({
-    properties: ['openDirectory'],
+    properties: ['openDirectory', 'multiSelections'],
   });
 
-  return folderPaths?.[0];
+  return folderPaths || [];
 };
 
 export const openFolder = (folderPath: string) => {

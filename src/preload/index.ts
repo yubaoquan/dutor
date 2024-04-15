@@ -6,8 +6,8 @@ import { RendererMessage } from '../common/message';
 const api = {
   ping: () => ipcRenderer.invoke(RendererMessage.Ping),
   getFolders: (folder: string) => ipcRenderer.invoke(RendererMessage.GetFolders, folder),
-  scanDuplicatedFiles: (folder: string) =>
-    ipcRenderer.invoke(RendererMessage.ScanDuplicatedFiles, folder),
+  scanDuplicatedFiles: (folders: string[]) =>
+    ipcRenderer.invoke(RendererMessage.ScanDuplicatedFiles, folders),
   deleteFiles: (files: string[]) => ipcRenderer.invoke(RendererMessage.DeleteFiles, files),
   openDevTools: (open: boolean) => ipcRenderer.invoke(RendererMessage.OpenDevTools, open),
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => {

@@ -18,9 +18,9 @@ const handleGetFolders = async (ipcMain) => {
 };
 
 const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
-  ipcMain.handle(RendererMessage.ScanDuplicatedFiles, async (_event, folderPath) => {
+  ipcMain.handle(RendererMessage.ScanDuplicatedFiles, async (_event, folderPaths) => {
     const result = await scanDuplicatedFiles({
-      dir: folderPath,
+      dirs: folderPaths,
       beforeAll(nodes) {
         mainWindow.webContents.send(MainMessage.BeforeAllHash, nodes);
       },

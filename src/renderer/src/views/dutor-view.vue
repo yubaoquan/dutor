@@ -24,12 +24,25 @@
             $t('dutor.selectFolder')
           }}</v-btn>
         </v-col>
-        <v-col cols="8">{{ targetFolder }}</v-col>
+        <v-col cols="8">
+          <div
+            v-for="folderPath in targetFolders"
+            :key="folderPath"
+            class="flex justify-between items-center mb-2"
+          >
+            <span>{{ folderPath }}</span>
+            <v-btn
+              density="compact"
+              icon="mdi-close"
+              @click="handleDeleteTargetFolderClick(folderPath)"
+            ></v-btn>
+          </div>
+        </v-col>
         <v-col cols="2" class="text-right">
           <v-btn
             color="primary"
             :loading="isScanning"
-            :disabled="!targetFolder"
+            :disabled="!targetFolders.length"
             @click="handleScanClick"
             >{{ $t('dutor.startScan') }}</v-btn
           >
@@ -92,7 +105,7 @@ const {
 
   // startFakeData,
 } = useScanProgress();
-const targetFolder = ref<string>('');
+const targetFolders = ref<string[]>([]);
 const isScanning = ref(false);
 const showMessage = ref(false);
 const toastMessage = ref<string>('');
@@ -113,7 +126,7 @@ provide('toast', toast);
 const handleScanClick = async () => {
   isScanning.value = true;
   resetProgress();
-  const result = await window.api.scanDuplicatedFiles(targetFolder.value);
+  const result = await window.api.scanDuplicatedFiles(toRaw(targetFolders.value));
 
   isScanning.value = false;
   filesGroups.value = Object.entries(result)
@@ -169,8 +182,16 @@ const handleDeleteAllConfirm = () => {
 };
 
 const handleSelectFolderClick = async () => {
-  const folderPath = await window.api.selectFolder();
-  targetFolder.value = folderPath;
+  const folderPaths = await window.api.selectFolder();
+  folderPaths.forEach((folderPath) => {
+    if (!targetFolders.value.includes(folderPath)) {
+      targetFolders.value.push(folderPath);
+    }
+  });
+};
+
+const handleDeleteTargetFolderClick = (folderPath: string) => {
+  targetFolders.value = targetFolders.value.filter((path) => path !== folderPath);
 };
 
 window.api.listenFromMain(MainMessage.BeforeHash, (path) => {
