@@ -4,7 +4,10 @@
     "building": "正在构建中",
     "use": "使用",
     "welcome": "欢迎使用",
-    "theme": "主题"
+    "theme": "主题",
+    "close": "关闭",
+    "confirm": "确认",
+    "cancel": "取消"
   },
   "route": {
     "home": "首页",
@@ -19,6 +22,7 @@
     "scanning": "扫描中",
     "finished": "已扫描",
     "deleteAllSelectedFiles": "删除全部选中文件",
-    "failToDeleteFiles": "删除文件失败"
+    "failToDeleteFiles": "删除文件失败",
+    "setFilterConditions": "设置过滤条件"
   }
 }

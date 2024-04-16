@@ -4,7 +4,10 @@
     "building": "Building",
     "use": "Use",
     "welcome": "Welcome",
-    "theme": "Theme"
+    "theme": "Theme",
+    "close": "Close",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "route": {
     "home": "Home",
@@ -19,6 +22,7 @@
     "scanning": "Scanning",
     "finished": "Finished",
     "deleteAllSelectedFiles": "Delete All Selected Files",
-    "failToDeleteFiles": "Fail to delete files"
+    "failToDeleteFiles": "Fail to delete files",
+    "setFilterConditions": "Set Filter Conditions"
   }
 }

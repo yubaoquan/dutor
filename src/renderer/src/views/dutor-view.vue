@@ -1,15 +1,5 @@
 <template>
-  <!-- <div @click="startFakeData">test</div> -->
-
   <v-container class="bg-surface-variant" fluid>
-    <v-snackbar v-model="showMessage" location="top" :timeout="2000" rounded>
-      {{ toastMessage }}
-
-      <template #actions>
-        <v-btn color="pink" variant="text" @click="showMessage = false"> Close </v-btn>
-      </template>
-    </v-snackbar>
-
     <template v-if="isScanning">
       <scan-progress
         :all-files="allFiles"
@@ -19,12 +9,13 @@
     </template>
     <template v-else>
       <v-row>
-        <v-col cols="2">
-          <v-btn color="#66BB6A" @click="handleSelectFolderClick">{{
+        <v-col cols="3">
+          <v-btn class="mr-2" color="#66BB6A" @click="handleSelectFolderClick">{{
             $t('dutor.selectFolder')
           }}</v-btn>
+          <filter-setting></filter-setting>
         </v-col>
-        <v-col cols="8">
+        <v-col cols="6">
           <div
             v-for="folderPath in targetFolders"
             :key="folderPath"
@@ -38,7 +29,7 @@
             ></v-btn>
           </div>
         </v-col>
-        <v-col cols="2" class="text-right">
+        <v-col cols="3" class="text-right">
           <v-btn
             color="primary"
             :loading="isScanning"
@@ -81,14 +72,16 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { ref, provide, toRaw } from 'vue';
+import { ref, inject, toRaw } from 'vue';
 import useDeleteAll from '@renderer/components/file-list/use-delete-all-confirm';
 import ScanProgress from '@renderer/components/scan-progress/scan-progress.vue';
 import FileList from '@/components/file-list/file-list.vue';
 import useScanProgress from '@renderer/components/scan-progress/use-progress';
+import FilterSetting from '@renderer/components/filter-setting/filter-setting.vue';
 import { MainMessage } from '../../../common/message';
 import type { FileItem } from '../types/index';
 
+const toast: any = inject('toast');
 const { t } = useI18n({ useScope: 'global' });
 type HashItem = {
   hash: string;
@@ -107,21 +100,12 @@ const {
 } = useScanProgress();
 const targetFolders = ref<string[]>([]);
 const isScanning = ref(false);
-const showMessage = ref(false);
-const toastMessage = ref<string>('');
 
 const filesGroups = ref<HashItem[]>([]);
 const selectedFileIds = ref<string[]>([]);
 
 const { DeleteAllConfirm, deleteAllAsk, handleDeleteAllCancel, handleDeleteAllClick } =
   useDeleteAll();
-
-const toast = (msg: string) => {
-  toastMessage.value = msg;
-  showMessage.value = true;
-};
-
-provide('toast', toast);
 
 const handleScanClick = async () => {
   isScanning.value = true;

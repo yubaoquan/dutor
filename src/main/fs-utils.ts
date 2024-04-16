@@ -56,8 +56,8 @@ export const scanDuplicatedFiles = async ({
     node: any;
     start: () => Promise<void>;
   };
-  const tasks: Task[] = [];
 
+  const tasks: Task[] = [];
   const ret = {};
 
   const walk = (nodes) => {
@@ -90,7 +90,9 @@ export const scanDuplicatedFiles = async ({
     });
   };
 
+  // filter out subdirectories
   dirs
+    .filter((dir) => dirs.every((d) => dir === d || !dir.startsWith(d)))
     .map((dir) => dirTree(dir, { attributes: ['size', 'type'] }))
     .forEach((tree) => walk(tree.children));
 
