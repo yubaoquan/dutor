@@ -12,7 +12,8 @@
   "route": {
     "home": "首页",
     "dutor": "文件查重",
-    "about": "关于"
+    "about": "关于",
+    "blog": "博客"
   },
   "dutor": {
     "pageDescription": "扫描文件夹中内容重复的文件",
@@ -24,5 +25,8 @@
     "deleteAllSelectedFiles": "删除全部选中文件",
     "failToDeleteFiles": "删除文件失败",
     "setFilterConditions": "设置过滤条件"
+  },
+  "about": {
+    "desc": "我似乎要把这个东西做成一个工具集，但是我不知道我能不能做到，所以我先把这个东西做出来再说吧。"
   }
 }

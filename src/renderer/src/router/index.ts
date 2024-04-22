@@ -26,16 +26,23 @@ const router = createRouter({
             title: 'route.dutor',
           },
         },
+        {
+          path: 'blog',
+          name: 'blog',
+          component: () => import('../views/blog-view/index.vue'),
+          meta: {
+            title: 'route.blog',
+          },
+        },
+        {
+          path: 'about',
+          name: 'about',
+          component: () => import('../views/about-view.vue'),
+          meta: {
+            title: 'route.about',
+          },
+        },
       ],
-    },
-    {
-      path: '/about',
-      name: 'about',
-
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
     },
   ],
 });

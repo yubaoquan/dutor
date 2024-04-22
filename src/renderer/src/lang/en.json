@@ -12,7 +12,8 @@
   "route": {
     "home": "Home",
     "dutor": "Duplicated Files Finder",
-    "about": "About"
+    "about": "About",
+    "blog": "Blog"
   },
   "dutor": {
     "pageDescription": "Duplicated Files Finder",
@@ -24,5 +25,8 @@
     "deleteAllSelectedFiles": "Delete All Selected Files",
     "failToDeleteFiles": "Fail to delete files",
     "setFilterConditions": "Set Filter Conditions"
+  },
+  "about": {
+    "desc": "I seem to want to make this into a toolkit, but I don't know if I can do it, so let me make this thing first and then see."
   }
 }

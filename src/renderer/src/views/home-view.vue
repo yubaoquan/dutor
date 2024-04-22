@@ -41,9 +41,15 @@ const features = computed(() => [
     path: '/dutor',
   },
   {
+    title: '博客',
+    headline: '博客',
+    caption: '个人博客系统',
+    path: '/blog',
+  },
+  {
     title: t('route.about'),
     headline: t('route.about'),
-    caption: t('common.building'),
+    caption: t('about.desc'),
     path: '/about',
   },
 ]);
