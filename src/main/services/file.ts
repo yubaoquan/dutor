@@ -3,7 +3,7 @@ import path from 'path';
 import dirTree from 'directory-tree';
 import md5 from 'md5-file';
 import { dialog, shell } from 'electron';
-import type { FolderModel } from '../common/types';
+import type { FolderModel } from '@/common/types';
 
 export const getAllDrives = () => {
   const drives: FolderModel[] = [];

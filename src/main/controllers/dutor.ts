@@ -1,4 +1,5 @@
 import { nativeTheme } from 'electron/main';
+import { RendererMessage, MainMessage } from '@/common/message';
 import {
   getAllDrives,
   getDirs,
@@ -6,8 +7,7 @@ import {
   batchDeleteFiles,
   selectFolder,
   openFolder,
-} from './fs-utils';
-import { RendererMessage, MainMessage } from '../common/message';
+} from '../services/file';
 
 const handleGetFolders = async (ipcMain) => {
   ipcMain.handle(RendererMessage.GetFolders, async (_event, folder) => {
@@ -82,7 +82,7 @@ const handleGetIsDark = async (ipcMain) => {
   ipcMain.handle(RendererMessage.GetIsDark, async () => nativeTheme.shouldUseDarkColors);
 };
 
-export const registerHandlers = ({ ipcMain, mainWindow }) => {
+const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleGetFolders(ipcMain);
   handleDuplicatedScanFiles({ ipcMain, mainWindow });
   handlePing(ipcMain);
@@ -93,3 +93,5 @@ export const registerHandlers = ({ ipcMain, mainWindow }) => {
   handleThemeToggle(ipcMain);
   handleGetIsDark(ipcMain);
 };
+
+export default registerHandlers;

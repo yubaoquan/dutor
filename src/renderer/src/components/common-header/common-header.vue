@@ -42,7 +42,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useDark, useToggle } from '@vueuse/core';
-import { useThemeStore } from '@/stores/theme';
+import { useThemeStore } from '@renderer/stores/theme';
 
 const { setTheme } = useThemeStore();
 

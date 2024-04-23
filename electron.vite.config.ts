@@ -9,6 +9,12 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin(), bytecodePlugin()],
+    resolve: {
+      alias: {
+        '@main': resolve('src/main'),
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
   },
   preload: {
     plugins: [externalizeDepsPlugin(), bytecodePlugin()],
@@ -17,7 +23,7 @@ export default defineConfig({
     resolve: {
       alias: {
         '@renderer': resolve('src/renderer/src'),
-        '@': fileURLToPath(new URL('./src/renderer/src', import.meta.url)),
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
     plugins: [

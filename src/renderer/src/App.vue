@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useThemeStore } from '@/stores/theme';
+import { useThemeStore } from '@renderer/stores/theme';
 
 const themeStore = useThemeStore();
 const devOpened = ref(false);
