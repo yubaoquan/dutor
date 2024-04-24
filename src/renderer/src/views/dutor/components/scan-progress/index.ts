@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
 import { ref } from 'vue';
-import type { FileItem } from '../../types/index';
+import type { FileItem } from '@renderer/types/index';
+import ScanProgress from './scan-progress.vue';
 
 export default () => {
   const allFiles = ref<FileItem[]>([]);
@@ -57,5 +58,6 @@ export default () => {
     initProgress,
     updateProgress,
     startFakeData,
+    ScanProgress,
   };
 };

@@ -73,13 +73,12 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 import { ref, inject, toRaw } from 'vue';
-import useDeleteAll from '@renderer/components/file-list/use-delete-all-confirm';
-import ScanProgress from '@renderer/components/scan-progress/scan-progress.vue';
-import FileList from '@renderer/components/file-list/file-list.vue';
-import useScanProgress from '@renderer/components/scan-progress/use-progress';
-import FilterSetting from '@renderer/components/filter-setting/filter-setting.vue';
-import { MainMessage } from '../../../common/message';
-import type { FileItem } from '../types/index';
+import { MainMessage } from '@/common/message';
+import type { FileItem } from '@renderer/types/index';
+import FilterSetting from './components/filter-setting/index.vue';
+import FileList from './components/file-list/index.vue';
+import useDeleteAll from './components/delete-all-confirm/index';
+import useScanProgress from './components/scan-progress/index';
 
 const toast: any = inject('toast');
 const { t } = useI18n({ useScope: 'global' });
@@ -95,6 +94,7 @@ const {
   resetProgress,
   initProgress,
   updateProgress,
+  ScanProgress,
 
   // startFakeData,
 } = useScanProgress();

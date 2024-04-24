@@ -80,8 +80,8 @@
 
 <script lang="ts" setup>
 import { ref, defineProps, defineEmits, toRaw } from 'vue';
-import useDeleteAll from './use-delete-all-confirm';
-import type { FileItem } from '../../types/index';
+import type { FileItem } from '@renderer/types/index';
+import useDeleteAll from '../delete-all-confirm/index';
 
 enum EventType {
   SELECT_FILES = 'select-files',

@@ -49,7 +49,7 @@
 
 <script lang="ts" setup>
 import { computed, defineProps } from 'vue';
-import type { FileItem } from '../../types/index';
+import type { FileItem } from '@renderer/types/index';
 
 const props = defineProps<{
   allFiles: FileItem[];

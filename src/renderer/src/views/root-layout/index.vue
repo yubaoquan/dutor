@@ -6,8 +6,8 @@
 
 <script lang="ts" setup>
 import { ref, provide } from 'vue';
-import MyToast from '@renderer/components/my-toast/my-toast.vue';
-import commonHeader from '@renderer/components/common-header/common-header.vue';
+import MyToast from './components/my-toast.vue';
+import commonHeader from './components/common-header.vue';
 
 const toastRef = ref<any>(null);
 

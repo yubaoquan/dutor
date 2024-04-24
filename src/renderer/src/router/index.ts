@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomeView from '../views/home-view.vue';
-import RootLayout from '../views/root-layout.vue';
+import RootLayout from '../views/root-layout/index.vue';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -21,7 +21,7 @@ const router = createRouter({
         {
           path: 'dutor',
           name: 'dutor',
-          component: () => import('../views/dutor-view.vue'),
+          component: () => import('../views/dutor/index.vue'),
           meta: {
             title: 'route.dutor',
           },
@@ -34,7 +34,7 @@ const router = createRouter({
         {
           path: 'blog',
           name: 'blog',
-          component: () => import('../views/blog-view/index.vue'),
+          component: () => import('../views/blog-view/home/index.vue'),
           meta: {
             title: 'route.blog',
           },
@@ -46,15 +46,6 @@ const router = createRouter({
                 title: 'blog.commonBlogs',
               },
               component: () => import('../views/blog-view/common-page.vue'),
-            },
-            {
-              // TODO: 改成弹窗
-              path: 'register',
-              name: 'blog-register',
-              meta: {
-                title: 'blog.userRegister',
-              },
-              component: () => import('../views/blog-view/register-page.vue'),
             },
             {
               // TODO: 改成弹窗
