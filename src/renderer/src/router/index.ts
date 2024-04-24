@@ -7,7 +7,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'root',
       component: RootLayout,
       meta: {
         title: 'route.home',
@@ -27,12 +27,45 @@ const router = createRouter({
           },
         },
         {
+          path: 'common',
+          name: 'common-blogs',
+          component: () => import('../views/blog-view/common-page.vue'),
+        },
+        {
           path: 'blog',
           name: 'blog',
           component: () => import('../views/blog-view/index.vue'),
           meta: {
             title: 'route.blog',
           },
+          children: [
+            {
+              path: 'common',
+              name: 'common-blogs',
+              meta: {
+                title: 'blog.commonBlogs',
+              },
+              component: () => import('../views/blog-view/common-page.vue'),
+            },
+            {
+              // TODO: 改成弹窗
+              path: 'register',
+              name: 'blog-register',
+              meta: {
+                title: 'blog.userRegister',
+              },
+              component: () => import('../views/blog-view/register-page.vue'),
+            },
+            {
+              // TODO: 改成弹窗
+              path: 'login',
+              name: 'blog-login',
+              meta: {
+                title: 'blog.userLogin',
+              },
+              component: () => import('../views/blog-view/login-page.vue'),
+            },
+          ],
         },
         {
           path: 'about',

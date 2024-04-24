@@ -28,5 +28,10 @@
   },
   "about": {
     "desc": "I seem to want to make this into a toolkit, but I don't know if I can do it, so let me make this thing first and then see."
+  },
+  "blog": {
+    "userRegister": "User Register",
+    "userLogin": "User Login",
+    "commonBlogs": "Common Blogs"
   }
 }
