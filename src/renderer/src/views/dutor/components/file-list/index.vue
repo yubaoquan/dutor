@@ -127,7 +127,7 @@ const handleFileSelect = (file) => {
 };
 
 const handleOpenFolderClick = (file: FileItem) => {
-  window.api.openFolder(file.path);
+  window.api.dutor.openFolder(file.path);
 };
 
 const handleDeleteFileClick = (file: FileItem) => {

@@ -9,6 +9,8 @@ export const enum RendererMessage {
   OpenFolder = 'open-folder',
   ThemeToggle = 'theme-toggle',
   GetIsDark = 'get-is-dark',
+  GetUsers = 'get-users',
+  AddUser = 'add-user',
 }
 
 /** 后端向前端发送的消息 */

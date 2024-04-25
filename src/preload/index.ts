@@ -4,21 +4,26 @@ import { RendererMessage } from '../common/message';
 
 // Custom APIs for renderer
 const api = {
-  ping: () => ipcRenderer.invoke(RendererMessage.Ping),
-  getFolders: (folder: string) => ipcRenderer.invoke(RendererMessage.GetFolders, folder),
-  scanDuplicatedFiles: (folders: string[]) =>
-    ipcRenderer.invoke(RendererMessage.ScanDuplicatedFiles, folders),
-  deleteFiles: (files: string[]) => ipcRenderer.invoke(RendererMessage.DeleteFiles, files),
   openDevTools: (open: boolean) => ipcRenderer.invoke(RendererMessage.OpenDevTools, open),
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => {
     ipcRenderer.on(channel, (_, ...args) => {
       listener(...args);
     });
   },
-  selectFolder: () => ipcRenderer.invoke(RendererMessage.SelectFolder),
-  openFolder: (folder: string) => ipcRenderer.invoke(RendererMessage.OpenFolder, folder),
   toggleTheme: () => ipcRenderer.invoke(RendererMessage.ThemeToggle),
   getIsDark: () => ipcRenderer.invoke(RendererMessage.GetIsDark),
+  dutor: {
+    getFolders: (folder: string) => ipcRenderer.invoke(RendererMessage.GetFolders, folder),
+    scanDuplicatedFiles: (folders: string[]) =>
+      ipcRenderer.invoke(RendererMessage.ScanDuplicatedFiles, folders),
+    deleteFiles: (files: string[]) => ipcRenderer.invoke(RendererMessage.DeleteFiles, files),
+    selectFolder: () => ipcRenderer.invoke(RendererMessage.SelectFolder),
+    openFolder: (folder: string) => ipcRenderer.invoke(RendererMessage.OpenFolder, folder),
+  },
+  user: {
+    getUsers: (conditions: any) => ipcRenderer.invoke(RendererMessage.GetUsers, conditions),
+    addUser: (user: any) => ipcRenderer.invoke(RendererMessage.AddUser, user),
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

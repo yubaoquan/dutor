@@ -2,7 +2,8 @@ import { join } from 'path';
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import dutorController from './controllers/dutor';
+import dutorControllers from './controllers/dutor';
+import userControllers from './controllers/user';
 
 function createWindow() {
   // Create the browser window.
@@ -57,7 +58,12 @@ app.whenReady().then(() => {
   });
 
   const mainWindow = createWindow();
-  dutorController({ ipcMain, mainWindow });
+  const registerControllers = (handlers) => {
+    handlers.forEach((handler) => handler({ ipcMain, mainWindow }));
+  };
+
+  registerControllers(dutorControllers);
+  registerControllers(userControllers);
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the

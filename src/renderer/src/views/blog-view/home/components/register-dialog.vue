@@ -60,7 +60,7 @@ import { ref, defineEmits } from 'vue';
 
 const dialog = ref(false);
 const emit = defineEmits<{
-  (e: 'confirm', data: { username: string; password: string }): void;
+  (e: 'confirm', data: { name: string; password: string }): void;
 }>();
 
 const username = ref('');
@@ -69,7 +69,7 @@ const passwordAgain = ref('');
 
 const handleConfirm = () => {
   dialog.value = false;
-  emit('confirm', { username: username.value, password: password.value });
+  emit('confirm', { name: username.value, password: password.value });
 };
 </script>
 

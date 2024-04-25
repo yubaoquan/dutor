@@ -11,6 +11,9 @@
       <div>
         <register-dialog @confirm="handleRegisterConfirm"></register-dialog>
       </div>
+      <div>
+        <v-btn @click="handleGetUsersClick">get users</v-btn>
+      </div>
     </div>
     <router-view></router-view>
   </div>
@@ -22,9 +25,16 @@ import RegisterDialog from './components/register-dialog.vue';
 
 const route = useRoute();
 
-const handleRegisterConfirm = (data: { username: string; password: string }) => {
+const handleRegisterConfirm = async (data) => {
   console.info(`register confirm`);
   console.info(data);
+  const res = await window.api.user.addUser(data);
+  console.info(res);
+};
+
+const handleGetUsersClick = async () => {
+  const res = await window.api.user.getUsers();
+  console.info(res);
 };
 </script>
 

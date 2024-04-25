@@ -110,7 +110,7 @@ const { DeleteAllConfirm, deleteAllAsk, handleDeleteAllCancel, handleDeleteAllCl
 const handleScanClick = async () => {
   isScanning.value = true;
   resetProgress();
-  const result = await window.api.scanDuplicatedFiles(toRaw(targetFolders.value));
+  const result = await window.api.dutor.scanDuplicatedFiles(toRaw(targetFolders.value));
 
   isScanning.value = false;
   filesGroups.value = Object.entries(result)
@@ -152,7 +152,7 @@ const updateFiles = (deleted: string[]) => {
 };
 
 const handleDeleteFiles = async (paths: string[]) => {
-  const success = await window.api.deleteFiles(paths);
+  const success = await window.api.dutor.deleteFiles(paths);
   if (success) {
     updateFiles(paths);
   } else {
@@ -166,7 +166,7 @@ const handleDeleteAllConfirm = () => {
 };
 
 const handleSelectFolderClick = async () => {
-  const folderPaths = await window.api.selectFolder();
+  const folderPaths = await window.api.dutor.selectFolder();
   folderPaths.forEach((folderPath) => {
     if (!targetFolders.value.includes(folderPath)) {
       targetFolders.value.push(folderPath);

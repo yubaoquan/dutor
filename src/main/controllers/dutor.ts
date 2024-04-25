@@ -9,7 +9,7 @@ import {
   openFolder,
 } from '../services/file';
 
-const handleGetFolders = async (ipcMain) => {
+const handleGetFolders = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.GetFolders, async (_event, folder) => {
     const folders = folder ? await getDirs(folder) : getAllDrives();
 
@@ -17,7 +17,7 @@ const handleGetFolders = async (ipcMain) => {
   });
 };
 
-const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
+const handleDuplicatedScanFiles = ({ ipcMain, mainWindow }) => {
   ipcMain.handle(RendererMessage.ScanDuplicatedFiles, async (_event, folderPaths) => {
     const result = await scanDuplicatedFiles({
       dirs: folderPaths,
@@ -33,19 +33,7 @@ const handleDuplicatedScanFiles = async ({ ipcMain, mainWindow }) => {
   });
 };
 
-const handlePing = async (ipcMain) => {
-  ipcMain.handle(
-    RendererMessage.Ping,
-    async () =>
-      new Promise<string>((resolve) => {
-        setTimeout(() => {
-          resolve('pongx');
-        }, 1000);
-      }),
-  );
-};
-
-const handleBatchDeleteFiles = async (ipcMain) => {
+const handleBatchDeleteFiles = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.DeleteFiles, async (_event, filePaths: string[]) =>
     batchDeleteFiles(filePaths),
   );
@@ -57,17 +45,17 @@ const handleOpenDevTools = ({ ipcMain, mainWindow }) => {
   );
 };
 
-const handleSelectFolder = async (ipcMain) => {
+const handleSelectFolder = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.SelectFolder, () => selectFolder());
 };
 
-const handleOpenFolder = async (ipcMain) => {
+const handleOpenFolder = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.OpenFolder, (_event, folderPath: string) =>
     openFolder(folderPath),
   );
 };
 
-const handleThemeToggle = async (ipcMain) => {
+const handleThemeToggle = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.ThemeToggle, async () => {
     if (nativeTheme.shouldUseDarkColors) {
       nativeTheme.themeSource = 'light';
@@ -78,20 +66,17 @@ const handleThemeToggle = async (ipcMain) => {
   });
 };
 
-const handleGetIsDark = async (ipcMain) => {
+const handleGetIsDark = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.GetIsDark, async () => nativeTheme.shouldUseDarkColors);
 };
 
-const registerHandlers = ({ ipcMain, mainWindow }) => {
-  handleGetFolders(ipcMain);
-  handleDuplicatedScanFiles({ ipcMain, mainWindow });
-  handlePing(ipcMain);
-  handleBatchDeleteFiles(ipcMain);
-  handleOpenDevTools({ ipcMain, mainWindow });
-  handleSelectFolder(ipcMain);
-  handleOpenFolder(ipcMain);
-  handleThemeToggle(ipcMain);
-  handleGetIsDark(ipcMain);
-};
-
-export default registerHandlers;
+export default [
+  handleGetFolders,
+  handleDuplicatedScanFiles,
+  handleBatchDeleteFiles,
+  handleOpenDevTools,
+  handleSelectFolder,
+  handleOpenFolder,
+  handleThemeToggle,
+  handleGetIsDark,
+];
