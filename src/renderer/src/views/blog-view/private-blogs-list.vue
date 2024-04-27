@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center p-20">用户登录</div>
+  <div>私密博客列表</div>
 </template>
 
 <script lang="ts" setup></script>

@@ -32,6 +32,7 @@
   "blog": {
     "userRegister": "用户注册",
     "userLogin": "用户登录",
-    "commonBlogs": "公共博客"
+    "publicBlogsList": "公共博客列表",
+    "privateBlogsList": "私密博客列表"
   }
 }

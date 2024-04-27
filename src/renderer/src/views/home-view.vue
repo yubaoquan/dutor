@@ -1,23 +1,27 @@
 <template>
   <div class="index-page">
-    <div class="text-3xl font-bold underline">{{ $t('common.welcome') }}</div>
+    <div class="text-3xl font-bold">{{ $t('common.welcome') }}</div>
     <v-container>
-      <v-row align="center" justify="center">
-        <v-col v-for="(item, i) in features" :key="i" cols="auto">
-          <v-card variant="tonal" class="mx-auto" max-width="344" min-width="300">
+      <v-row align="center" justify="start">
+        <v-col v-for="(item, i) in features" :key="i" cols="auto" lg="4" md="6">
+          <v-card
+            variant="tonal"
+            class="mx-auto"
+            max-width="344"
+            min-width="300"
+            elevation="6"
+            height="140"
+            @click="handleItemClick(item)"
+          >
             <v-card-item>
               <div>
                 <div class="text-overline mb-1">
                   {{ item.title }}
                 </div>
                 <div class="text-h6 mb-1">{{ item.headline }}</div>
-                <div class="text-caption">{{ item.caption }}</div>
+                <div class="text-caption truncate">{{ item.caption }}</div>
               </div>
             </v-card-item>
-
-            <v-card-actions>
-              <v-btn @click="handleItemClick(item)">{{ $t('common.use') }}</v-btn>
-            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>

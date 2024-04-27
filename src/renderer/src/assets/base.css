@@ -69,7 +69,7 @@ body {
   font-family:
     Inter,
     -apple-system,
-    BlinkMacSystemFont,
+    /* BlinkMacSystemFont, 这个会导致控制台包一堆警告, 参见 https://issues.chromium.org/issues/40721453 */
     'Segoe UI',
     Roboto,
     Oxygen,

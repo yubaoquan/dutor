@@ -15,6 +15,7 @@ type API = {
   user: {
     getUsers: () => Promise<any[]>
     addUser: (user: any) => Promise<boolean>
+    checkUserExists: (name: string) => Promise<boolean>
   }
 }
 

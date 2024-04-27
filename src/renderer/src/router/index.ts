@@ -27,11 +27,6 @@ const router = createRouter({
           },
         },
         {
-          path: 'common',
-          name: 'common-blogs',
-          component: () => import('../views/blog-view/common-page.vue'),
-        },
-        {
           path: 'blog',
           name: 'blog',
           component: () => import('../views/blog-view/home/index.vue'),
@@ -40,21 +35,20 @@ const router = createRouter({
           },
           children: [
             {
-              path: 'common',
-              name: 'common-blogs',
+              path: 'public-blogs',
+              name: 'public-blogs',
               meta: {
-                title: 'blog.commonBlogs',
+                title: 'blog.publicBlogsList',
               },
-              component: () => import('../views/blog-view/common-page.vue'),
+              component: () => import('../views/blog-view/public-blogs-list.vue'),
             },
             {
-              // TODO: 改成弹窗
-              path: 'login',
-              name: 'blog-login',
+              path: 'private-blogs',
+              name: 'private-blogs',
               meta: {
-                title: 'blog.userLogin',
+                title: 'blog.privateBlogsList',
               },
-              component: () => import('../views/blog-view/login-page.vue'),
+              component: () => import('../views/blog-view/private-blogs-list.vue'),
             },
           ],
         },
@@ -67,6 +61,10 @@ const router = createRouter({
           },
         },
       ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: { name: 'home' },
     },
   ],
 });

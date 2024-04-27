@@ -23,6 +23,7 @@ const api = {
   user: {
     getUsers: (conditions: any) => ipcRenderer.invoke(RendererMessage.GetUsers, conditions),
     addUser: (user: any) => ipcRenderer.invoke(RendererMessage.AddUser, user),
+    checkUserExists: (name: string) => ipcRenderer.invoke(RendererMessage.CheckUserExists, name),
   },
 };
 

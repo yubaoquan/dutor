@@ -1,15 +1,7 @@
 <template>
-  <div class="about">
-    <h1>{{ $t('about.desc') }}</h1>
+  <div class="about p-20 pt-48">
+    <h1 class="text-center">{{ $t('about.desc') }}</h1>
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
+<style lang="less" scoped></style>

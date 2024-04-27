@@ -32,6 +32,7 @@
   "blog": {
     "userRegister": "User Register",
     "userLogin": "User Login",
-    "commonBlogs": "Common Blogs"
+    "publicBlogsList": "Public Blogs List",
+    "privateBlogsList": "Private Blogs List"
   }
 }

@@ -1,12 +1,14 @@
 import Store from 'electron-store';
 import type { User } from '@/common/types';
 
-const store = new Store();
+const store = new Store({
+  encryptionKey: 'dutor-dutor',
+});
 
-export const getUsers = async (conditions) => {
-  console.info(`getUsers: ${conditions}`);
-  const users = store.get('users', []);
-  return users;
+export const getUsers = (conditions?: { name: string }) => {
+  console.info(`getUsers conditions: ${conditions}`);
+  const users = store.get('users', []) as User[];
+  return conditions ? users.filter((usr) => usr.name === conditions.name) : users;
 };
 
 export const addUser = async (user: User) => {
