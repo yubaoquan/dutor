@@ -7,7 +7,10 @@
     "theme": "主题",
     "close": "关闭",
     "confirm": "确认",
-    "cancel": "取消"
+    "cancel": "取消",
+    "preview": "预览",
+    "save": "保存",
+    "back": "返回"
   },
   "route": {
     "home": "首页",
@@ -33,6 +36,7 @@
     "userRegister": "用户注册",
     "userLogin": "用户登录",
     "publicBlogsList": "公共博客列表",
-    "privateBlogsList": "私密博客列表"
+    "privateBlogsList": "私密博客列表",
+    "createBlog": "创建博客"
   }
 }

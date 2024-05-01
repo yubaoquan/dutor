@@ -29,26 +29,34 @@ const router = createRouter({
         {
           path: 'blog',
           name: 'blog',
-          component: () => import('../views/blog-view/home/index.vue'),
+          component: () => import('../views/blog/home/index.vue'),
           meta: {
             title: 'route.blog',
           },
           children: [
             {
-              path: 'public-blogs',
+              path: 'public',
               name: 'public-blogs',
               meta: {
                 title: 'blog.publicBlogsList',
               },
-              component: () => import('../views/blog-view/public-blogs-list.vue'),
+              component: () => import('../views/blog/public-blogs.vue'),
             },
             {
-              path: 'private-blogs',
+              path: 'private',
               name: 'private-blogs',
               meta: {
                 title: 'blog.privateBlogsList',
               },
-              component: () => import('../views/blog-view/private-blogs-list.vue'),
+              component: () => import('../views/blog/private-blogs.vue'),
+            },
+            {
+              path: 'create',
+              name: 'create-blog',
+              meta: {
+                title: 'blog.createBlog',
+              },
+              component: () => import('../views/blog/edit-blog.vue'),
             },
           ],
         },

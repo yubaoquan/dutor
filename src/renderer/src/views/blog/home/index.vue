@@ -3,7 +3,7 @@
     <div class="text-center">博客系统</div>
     <div v-if="route.path === '/blog'">
       <div>
-        <router-link to="/blog/public-blogs" class="pa-4"
+        <router-link to="/blog/public" class="pa-4"
           ><v-btn class="inline-block" text="公共博客列表" variant="tonal"></v-btn
         ></router-link>
 

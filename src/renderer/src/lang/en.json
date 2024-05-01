@@ -7,7 +7,10 @@
     "theme": "Theme",
     "close": "Close",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "preview": "Preview",
+    "save": "Save",
+    "back": "Back"
   },
   "route": {
     "home": "Home",
@@ -33,6 +36,7 @@
     "userRegister": "User Register",
     "userLogin": "User Login",
     "publicBlogsList": "Public Blogs List",
-    "privateBlogsList": "Private Blogs List"
+    "privateBlogsList": "Private Blogs List",
+    "createBlog": "Create Blog"
   }
 }
