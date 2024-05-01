@@ -37,8 +37,8 @@ const handleGetUsersClick = async () => {
   console.info(res);
 };
 
-const handleLoginConfirm = async (data) => {
-  console.info(`login confirm`, data);
+const handleLoginConfirm = (data) => {
+  console.info(`index: login confirm`, data);
 };
 </script>
 

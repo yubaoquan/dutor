@@ -1,18 +1,21 @@
-import Store from 'electron-store';
 import type { User } from '@/common/types';
+import md5 from 'md5';
 
-const store = new Store({
-  encryptionKey: 'dutor-dutor',
-});
+// import * as db from '../db/rx/user';
+import * as db from '../db/electron-store/user';
 
-export const getUsers = (conditions?: { name: string }) => {
+const SALT = 'dutor-dutor-user';
+
+const getPasswordHash = (password: string) => md5(password + SALT);
+
+export const getUsers = async (conditions?: { name: string }) => {
   console.info(`getUsers conditions: ${conditions}`);
-  const users = store.get('users', []) as User[];
-  return conditions ? users.filter((usr) => usr.name === conditions.name) : users;
+
+  const users: User[] = await db.getUsers();
+  return users;
 };
 
 export const addUser = async (user: User) => {
-  const users: User[] = store.get('users', []) as User[];
   if (!user.name || !user.password) {
     return {
       success: false,
@@ -20,16 +23,29 @@ export const addUser = async (user: User) => {
     };
   }
 
-  if (users.some((u) => u.name === user.name)) {
+  const users: User[] = await db.getUsers({ name: user.name });
+
+  if (users.length) {
     return {
       success: false,
       message: 'User already exists',
     };
   }
 
-  store.set('users', users.concat(user));
+  const passwordHash = getPasswordHash(user.password);
+  const newUser = await db.addUser({
+    name: user.name,
+    hash: passwordHash,
+  });
 
   return {
-    success: true,
+    success: !!newUser,
+    user: newUser,
   };
+};
+
+export const login = async (name: string, password: string) => {
+  const hash = getPasswordHash(password);
+  const user = await db.login(name, hash);
+  return user;
 };

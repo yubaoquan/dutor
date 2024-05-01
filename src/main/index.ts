@@ -5,6 +5,10 @@ import icon from '../../resources/icon.png?asset';
 import dutorControllers from './controllers/dutor';
 import userControllers from './controllers/user';
 
+// import test from './db/test';
+
+// console.info(`test is`, test);
+
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({

@@ -37,6 +37,14 @@
     "userLogin": "User Login",
     "publicBlogsList": "Public Blogs List",
     "privateBlogsList": "Private Blogs List",
-    "createBlog": "Create Blog"
+    "createBlog": "Create Blog",
+    "usernameRequired": "Username is required",
+    "passwordRequired": "Password is required",
+    "usernameExists": "Username already exists",
+    "passwordAgainNotMatch": "The two passwords do not match",
+    "passwordLeastLength": "The password must be at least 6 characters",
+    "username": "Username",
+    "password": "Password",
+    "passwordAgain": "Password Again"
   }
 }

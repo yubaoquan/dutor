@@ -5,5 +5,6 @@ export type FolderModel = {
 
 export type User = {
   name: string;
-  password: string;
+  password?: string;
+  hash?: string;
 };

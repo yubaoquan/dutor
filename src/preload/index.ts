@@ -24,6 +24,8 @@ const api = {
     getUsers: (conditions: any) => ipcRenderer.invoke(RendererMessage.GetUsers, conditions),
     addUser: (user: any) => ipcRenderer.invoke(RendererMessage.AddUser, user),
     checkUserExists: (name: string) => ipcRenderer.invoke(RendererMessage.CheckUserExists, name),
+    login: (name: string, password: string) =>
+      ipcRenderer.invoke(RendererMessage.Login, name, password),
   },
 };
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link to="/blog/create" class="pa-4"
-      ><v-btn class="inline-block" text="新建博客" variant="tonal"></v-btn
+      ><v-btn class="inline-block" :text="$t('blog.createBlog')" variant="tonal"></v-btn
     ></router-link>
   </div>
 </template>

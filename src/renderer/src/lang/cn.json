@@ -37,6 +37,14 @@
     "userLogin": "用户登录",
     "publicBlogsList": "公共博客列表",
     "privateBlogsList": "私密博客列表",
-    "createBlog": "创建博客"
+    "createBlog": "创建博客",
+    "usernameRequired": "用户名必填",
+    "passwordRequired": "密码必填",
+    "usernameExists": "用户名已存在",
+    "passwordAgainNotMatch": "两次密码不一致",
+    "passwordLeastLength": "密码至少6位",
+    "username": "用户名",
+    "password": "密码",
+    "passwordAgain": "再次输入密码"
   }
 }

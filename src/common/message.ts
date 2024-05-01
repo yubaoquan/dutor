@@ -1,6 +1,5 @@
 /** 前端向后端发送的消息 */
 export const enum RendererMessage {
-  Ping = 'ping',
   GetFolders = 'get-folders',
   ScanDuplicatedFiles = 'scan-duplicated-files',
   DeleteFiles = 'delete-files',
@@ -12,6 +11,7 @@ export const enum RendererMessage {
   GetUsers = 'get-users',
   AddUser = 'add-user',
   CheckUserExists = 'check-user-exists',
+  Login = 'login',
 }
 
 /** 后端向前端发送的消息 */

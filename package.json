@@ -32,8 +32,12 @@
     "directory-tree": "^3.5.1",
     "electron-store": "^8.2.0",
     "lodash": "^4.17.21",
+    "md5": "^2.3.0",
     "md5-file": "^5.0.0",
+    "nanoid": "^3.3.7",
     "pinia": "^2.1.7",
+    "rxdb": "^15.19.0",
+    "rxjs": "^7.8.1",
     "vue-i18n": "^9.12.0",
     "vue-router": "^4.3.0",
     "vuetify": "^3.5.14"

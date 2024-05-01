@@ -1,3 +1,4 @@
+import type { User } from '@/common/types'
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 type API = {
@@ -13,9 +14,10 @@ type API = {
     openFolder: (folder: string) => void
   },
   user: {
-    getUsers: () => Promise<any[]>
-    addUser: (user: any) => Promise<boolean>
+    getUsers: () => Promise<User[]>
+    addUser: (user: User) => Promise<boolean>
     checkUserExists: (name: string) => Promise<boolean>
+    login: (name: string, password: string) => Promise<{ success: boolean; message: string }>
   }
 }
 
