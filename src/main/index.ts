@@ -4,10 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import dutorControllers from './controllers/dutor';
 import userControllers from './controllers/user';
-
-// import test from './db/test';
-
-// console.info(`test is`, test);
+import { initDb } from './db/sqlite/index';
 
 function createWindow() {
   // Create the browser window.
@@ -66,6 +63,7 @@ app.whenReady().then(() => {
     handlers.forEach((handler) => handler({ ipcMain, mainWindow }));
   };
 
+  initDb(app);
   registerControllers(dutorControllers);
   registerControllers(userControllers);
   const storePath = app.getPath('userData');

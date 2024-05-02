@@ -25,7 +25,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier', 'import'],
   parserOptions: {
     parser: '@typescript-eslint/parser',
-    extraFileExtensions: ['.ts', '.vue'],
+    extraFileExtensions: ['.vue'],
     project: ['./tsconfig.json', './tsconfig.eslint.json'],
     ecmaVersion: 'latest',
     createDefaultProgram: true,
@@ -38,7 +38,7 @@ module.exports = {
           ['@main', './src/main'],
           ['@renderer', './src/renderer/src'],
         ],
-        extensions: ['.ts'],
+        extensions: ['.ts', '.mjs'],
       },
     },
   },

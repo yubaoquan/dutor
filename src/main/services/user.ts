@@ -1,8 +1,9 @@
 import type { User } from '@/common/types';
 import md5 from 'md5';
 
-// import * as db from '../db/rx/user';
-import * as db from '../db/electron-store/user';
+import * as db from '../db/sqlite/user';
+
+// import * as db from '../db/electron-store/user';
 
 const SALT = 'dutor-dutor-user';
 
@@ -46,6 +47,6 @@ export const addUser = async (user: User) => {
 
 export const login = async (name: string, password: string) => {
   const hash = getPasswordHash(password);
-  const user = await db.login(name, hash);
-  return user;
+  const users = await db.getUsers({ name, hash });
+  return !!users.length;
 };
