@@ -28,6 +28,16 @@ const api = {
     login: (name: string, password: string) =>
       ipcRenderer.invoke(RendererMessage.Login, name, password),
   },
+  blog: {
+    addBlog: (blog: any) => ipcRenderer.invoke(RendererMessage.AddBlog, blog),
+    addTag: (tag: string) => ipcRenderer.invoke(RendererMessage.AddTag, tag),
+    deleteBlogById: (id: number) => ipcRenderer.invoke(RendererMessage.DeleteBlog, id),
+    deleteTag: (tag: string) => ipcRenderer.invoke(RendererMessage.DeleteTag, tag),
+    getBlogs: (conditions: any) => ipcRenderer.invoke(RendererMessage.GetBlogs, conditions),
+    getTags: () => ipcRenderer.invoke(RendererMessage.GetTags),
+    updateBlog: (blog: any) => ipcRenderer.invoke(RendererMessage.UpdateBlog, blog),
+    getDetail: (id: number) => ipcRenderer.invoke(RendererMessage.GetBlogDetail, id),
+  },
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

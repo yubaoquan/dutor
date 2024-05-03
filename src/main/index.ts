@@ -2,10 +2,7 @@ import { join } from 'path';
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import dutorController from './controllers/dutor';
-import settingController from './controllers/setting';
-import themeController from './controllers/theme';
-import userController from './controllers/user';
+import initControllers from './controllers/index';
 import { initTheme } from './init/index';
 import { initDb } from './db/index';
 
@@ -62,15 +59,10 @@ app.whenReady().then(() => {
   });
 
   const mainWindow = createWindow();
-  const registerControllers = (controllers) => {
-    controllers.forEach((handlers) =>
-      handlers.forEach((handler) => handler({ ipcMain, mainWindow })),
-    );
-  };
 
   initDb(app);
   initTheme();
-  registerControllers([dutorController, userController, themeController, settingController]);
+  initControllers({ ipcMain, mainWindow });
   const storePath = app.getPath('userData');
   console.info(`storePath: ${storePath}`);
 

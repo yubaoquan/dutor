@@ -41,6 +41,9 @@ module.exports = {
         extensions: ['.ts', '.mjs'],
       },
     },
+
+    // https://github.com/import-js/eslint-plugin-import?tab=readme-ov-file#importcore-modules
+    'import/core-modules': ['@intlify/unplugin-vue-i18n/messages'],
   },
   rules: {
     'prettier/prettier': 'error',

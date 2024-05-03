@@ -45,5 +45,5 @@ export const addUser = async (user: User) => {
 export const login = async (name: string, password: string) => {
   const hash = getPasswordHash(password);
   const users = await db.getUsers({ name, hash });
-  return !!users.length;
+  return users[0];
 };

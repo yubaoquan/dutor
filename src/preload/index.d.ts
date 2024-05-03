@@ -18,7 +18,17 @@ type API = {
     getUsers: () => Promise<User[]>
     addUser: (user: User) => Promise<boolean>
     checkUserExists: (name: string) => Promise<boolean>
-    login: (name: string, password: string) => Promise<{ success: boolean; message: string }>
+    login: (name: string, password: string) => Promise<{ success: boolean; message: string, user?: { name: string, id: string } }>
+  },
+  blog: {
+    addBlog: (blog: Blog) => Promise<Blog>
+    addTag: (tag: string) => Promise<string>
+    deleteBlogById: (id: number) => Promise<boolean>
+    deleteTag: (tag: string) => Promise<boolean>
+    getBlogs: (query: BlogQuery) => Promise<Blog[]>
+    getTags: () => Promise<string[]>
+    updateBlog: (blog: Blog) => Promise<Blog>
+    getDetail: (id: number) => Promise<Blog>
   }
 }
 

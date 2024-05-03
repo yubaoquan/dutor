@@ -56,11 +56,12 @@ const { locale, t } = useI18n({ useScope: 'global' });
 const breadscrumbPieces = computed(() =>
   route.matched
     .filter((item) => !!item.meta?.title)
-    .map((item) => {
+    .map((item, index, arr) => {
       const metaTitle = item.meta.title as string;
       return {
         title: metaTitle ? t(metaTitle) : item.path,
-        disabled: route.path === item.path,
+        // disabled: route.name === item.name || route.path === item.path,
+        disabled: index === arr.length - 1,
         to: item.path,
       };
     }),

@@ -59,12 +59,13 @@
 <script lang="ts" setup>
 import { ref, defineEmits } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useUserStore } from '@renderer/stores/user';
 
 const { t } = useI18n({ useScope: 'global' });
 
 const dialog = ref(false);
 const emit = defineEmits<{
-  (e: 'confirm', data: { name: string; password: string }): void;
+  (e: 'confirm'): void;
 }>();
 
 const loading = ref(false);
@@ -76,17 +77,16 @@ const rules = {
   password: [(v: string) => !!v || t('blog.passwordRequired')],
 };
 
+const { login } = useUserStore();
+
 const handleConfirm = async (event) => {
   loading.value = true;
   const results = await event;
   if (results.valid) {
-    const loginResult = await window.api.user.login(username.value, password.value);
-    if (loginResult.success) {
-      console.info(`login success`, loginResult);
-      emit('confirm', { name: username.value, password: password.value });
+    const loginSuccess = await login(username.value, password.value);
+    if (loginSuccess) {
+      emit('confirm');
       dialog.value = false;
-    } else {
-      console.info(`login fail`, loginResult);
     }
   }
   loading.value = false;

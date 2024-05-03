@@ -1,5 +1,5 @@
 <template>
-  <div v-show="operation === 'edit'" class="px-20 py-10">
+  <div v-show="operation === 'edit'" class="px-20 py-10 enhance-html">
     <Toolbar
       style="border-bottom: 1px solid #ccc"
       :editor="editorRef"
@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div v-show="operation === 'preview'" class="px-20 py-10">
+  <div v-show="operation === 'preview'" class="px-20 py-10 enhance-html">
     <!-- eslint-disable-next-line vue/no-v-html -->
     <div class="preview-content" v-html="valueHtml"></div>
     <div class="pt-5">

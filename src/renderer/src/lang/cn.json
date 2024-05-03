@@ -34,6 +34,7 @@
   },
   "blog": {
     "blog": "博客",
+    "blogSystem": "博客系统",
     "featureDesc": "个人博客系统",
     "userRegister": "用户注册",
     "userLogin": "用户登录",
@@ -47,6 +48,7 @@
     "passwordLeastLength": "密码至少6位",
     "username": "用户名",
     "password": "密码",
-    "passwordAgain": "再次输入密码"
+    "passwordAgain": "再次输入密码",
+    "logout": "退出"
   }
 }

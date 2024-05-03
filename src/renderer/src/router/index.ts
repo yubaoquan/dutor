@@ -43,7 +43,7 @@ const router = createRouter({
               component: () => import('../views/blog/public-blogs.vue'),
             },
             {
-              path: 'private',
+              path: 'private/:userId',
               name: 'private-blogs',
               meta: {
                 title: 'blog.privateBlogsList',

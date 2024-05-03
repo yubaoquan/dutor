@@ -18,8 +18,13 @@ const handleCheckUserExists = ({ ipcMain }) => {
 
 const handleLogin = ({ ipcMain }) => {
   ipcMain.handle(RendererMessage.Login, async (_event, name, password) => {
-    const loginSuccess = await login(name, password);
-    return { success: loginSuccess, message: loginSuccess ? '' : 'Login failed' };
+    const user = await login(name, password);
+    const loginSuccess = !!user;
+    return {
+      success: loginSuccess,
+      message: loginSuccess ? '' : 'Login failed',
+      user: loginSuccess ? { name, id: String(user.id) } : null,
+    };
   });
 };
 

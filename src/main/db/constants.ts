@@ -1,5 +1,6 @@
 export enum TableName {
   Blogs = 'blogs',
+  Tags = 'tags',
   Users = 'users',
 }
 
