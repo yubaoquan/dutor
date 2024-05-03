@@ -22,7 +22,7 @@ module.exports = {
     'prettier',
   ],
   parser: 'vue-eslint-parser',
-  plugins: ['@typescript-eslint', 'prettier', 'import'],
+  plugins: ['@typescript-eslint', 'prettier', 'import', 'typescript-sort-keys'],
   parserOptions: {
     parser: '@typescript-eslint/parser',
     extraFileExtensions: ['.vue'],
@@ -67,6 +67,8 @@ module.exports = {
       'error',
       { args: 'after-used', destructuredArrayIgnorePattern: '^_' },
     ],
+    'typescript-sort-keys/string-enum': ['error', 'asc', { caseSensitive: true }],
+    'typescript-sort-keys/interface': 'error',
 
     'prefer-destructuring': [
       'error',

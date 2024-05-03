@@ -6,8 +6,9 @@ type API = {
   listenFromMain: (channel: string, listener: (...args: any[]) => void) => void
   toggleTheme: () => Promise<boolean>
   getIsDark: () => Promise<boolean>
+  getLanguage: () => Promise<string>
+  setLanguage: (language: string) => void
   dutor: {
-    getFolders: (dir?: string) => Promise<any[]>
     scanDuplicatedFiles: (dir: string[]) => Promise<any[]>
     deleteFiles: (files: string[]) => Promise<boolean>
     selectFolder: () => Promise<string[]>

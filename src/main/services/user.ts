@@ -1,9 +1,6 @@
-import type { User } from '@/common/types';
 import md5 from 'md5';
-
-import * as db from '../db/sqlite/user';
-
-// import * as db from '../db/electron-store/user';
+import type { User } from '@/common/types';
+import * as db from '../db/user';
 
 const SALT = 'dutor-dutor-user';
 

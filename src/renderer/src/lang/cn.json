@@ -33,6 +33,8 @@
     "desc": "我似乎要把这个东西做成一个工具集，但是我不知道我能不能做到，所以我先把这个东西做出来再说吧。"
   },
   "blog": {
+    "blog": "博客",
+    "featureDesc": "个人博客系统",
     "userRegister": "用户注册",
     "userLogin": "用户登录",
     "publicBlogsList": "公共博客列表",

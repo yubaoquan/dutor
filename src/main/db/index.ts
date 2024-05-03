@@ -1,5 +1,5 @@
 import knex from 'knex';
-import getDbConfig from './config';
+import getDbConfig from './db-config';
 import { createTables } from './tables';
 
 let db;

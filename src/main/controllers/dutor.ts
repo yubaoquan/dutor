@@ -1,21 +1,5 @@
-import { nativeTheme } from 'electron/main';
 import { RendererMessage, MainMessage } from '@/common/message';
-import {
-  getAllDrives,
-  getDirs,
-  scanDuplicatedFiles,
-  batchDeleteFiles,
-  selectFolder,
-  openFolder,
-} from '../services/file';
-
-const handleGetFolders = ({ ipcMain }) => {
-  ipcMain.handle(RendererMessage.GetFolders, async (_event, folder) => {
-    const folders = folder ? await getDirs(folder) : getAllDrives();
-
-    return folders;
-  });
-};
+import { scanDuplicatedFiles, batchDeleteFiles, selectFolder, openFolder } from '../services/file';
 
 const handleDuplicatedScanFiles = ({ ipcMain, mainWindow }) => {
   ipcMain.handle(RendererMessage.ScanDuplicatedFiles, async (_event, folderPaths) => {
@@ -55,28 +39,10 @@ const handleOpenFolder = ({ ipcMain }) => {
   );
 };
 
-const handleThemeToggle = ({ ipcMain }) => {
-  ipcMain.handle(RendererMessage.ThemeToggle, async () => {
-    if (nativeTheme.shouldUseDarkColors) {
-      nativeTheme.themeSource = 'light';
-    } else {
-      nativeTheme.themeSource = 'dark';
-    }
-    return nativeTheme.shouldUseDarkColors;
-  });
-};
-
-const handleGetIsDark = ({ ipcMain }) => {
-  ipcMain.handle(RendererMessage.GetIsDark, async () => nativeTheme.shouldUseDarkColors);
-};
-
 export default [
-  handleGetFolders,
   handleDuplicatedScanFiles,
   handleBatchDeleteFiles,
   handleOpenDevTools,
   handleSelectFolder,
   handleOpenFolder,
-  handleThemeToggle,
-  handleGetIsDark,
 ];

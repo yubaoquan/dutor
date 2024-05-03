@@ -23,6 +23,7 @@
         :items="languages"
         density="compact"
         :label="$t('common.language')"
+        @update:model-value="handleLanguageChange"
       ></v-select>
 
       <v-switch
@@ -73,12 +74,18 @@ const languages = ref<any[]>([
 onMounted(async () => {
   const isDarkFromMain = await window.api.getIsDark();
   setTheme(isDarkFromMain);
+  const lang = await window.api.getLanguage();
+  locale.value = lang;
 });
 
 const handleThemeChange = () => {
   setTheme(!isDark.value);
   toggleDark();
   window.api.toggleTheme();
+};
+
+const handleLanguageChange = (value) => {
+  window.api.setLanguage(value);
 };
 </script>
 

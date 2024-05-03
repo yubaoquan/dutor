@@ -12,8 +12,9 @@ const api = {
   },
   toggleTheme: () => ipcRenderer.invoke(RendererMessage.ThemeToggle),
   getIsDark: () => ipcRenderer.invoke(RendererMessage.GetIsDark),
+  getLanguage: () => ipcRenderer.invoke(RendererMessage.GetLanguage),
+  setLanguage: (language: string) => ipcRenderer.invoke(RendererMessage.SetLanguage, language),
   dutor: {
-    getFolders: (folder: string) => ipcRenderer.invoke(RendererMessage.GetFolders, folder),
     scanDuplicatedFiles: (folders: string[]) =>
       ipcRenderer.invoke(RendererMessage.ScanDuplicatedFiles, folders),
     deleteFiles: (files: string[]) => ipcRenderer.invoke(RendererMessage.DeleteFiles, files),

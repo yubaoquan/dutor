@@ -4,7 +4,7 @@ export type FolderModel = {
 };
 
 export type User = {
+  hash?: string;
   name: string;
   password?: string;
-  hash?: string;
 };
