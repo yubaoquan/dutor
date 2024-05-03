@@ -7,7 +7,7 @@ const handleAddBlog = ({ ipcMain }) => {
 };
 
 const handleGetBlogs = ({ ipcMain }) => {
-  ipcMain.handle(RendererMessage.GetBlogs, async (_event, query: any) => getBlogs(query));
+  ipcMain.handle(RendererMessage.GetBlogs, async (_event, query: any = {}) => getBlogs(query));
 };
 
 const handleDeleteBlog = ({ ipcMain }) => {

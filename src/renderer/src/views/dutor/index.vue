@@ -83,8 +83,8 @@ import useScanProgress from './components/scan-progress/index';
 const toast: any = inject('toast');
 const { t } = useI18n({ useScope: 'global' });
 type HashItem = {
-  hash: string;
   files: FileItem[];
+  hash: string;
 };
 
 const {

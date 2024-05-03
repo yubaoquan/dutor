@@ -1,13 +1,13 @@
 import knex from 'knex';
 import getDbConfig from './db-config';
-import { createTables } from './tables';
+import { initTables } from './tables';
 
 let db;
 
 export const initDb = (app) => {
   try {
     db = knex(getDbConfig(app));
-    return createTables(db);
+    return initTables(db);
   } catch (e) {
     console.error(e);
     return false;

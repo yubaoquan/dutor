@@ -9,7 +9,7 @@ import { initDb } from './db/index';
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
+    width: 1300,
     height: 670,
 
     // fullscreen: true,

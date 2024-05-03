@@ -49,6 +49,9 @@
     "username": "用户名",
     "password": "密码",
     "passwordAgain": "再次输入密码",
-    "logout": "退出"
+    "logout": "退出",
+    "title": "标题",
+    "pleaseEnterTitle": "请输入标题",
+    "pleaseEnterContent": "请输入内容"
   }
 }

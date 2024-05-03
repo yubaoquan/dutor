@@ -1,11 +1,24 @@
 <template>
-  <div v-show="operation === 'edit'" class="px-20 py-10 enhance-html">
+  <div v-show="operation === 'edit'" class="p-20 enhance-html">
+    <div>
+      <v-text-field
+        v-model="blogTitle"
+        :label="$t('blog.title')"
+        variant="outlined"
+        density="compact"
+        hide-details="auto"
+        :error="titleError"
+        :error-messages="titleErrorMsg"
+        @update:model-value="handleTitleChange"
+      ></v-text-field>
+    </div>
     <Toolbar
       style="border-bottom: 1px solid #ccc"
       :editor="editorRef"
       :default-config="toolbarConfig"
       :mode="mode"
     />
+    <div v-if="isContentEmpty">{{ $t('blog.pleaseEnterContent') }}</div>
     <Editor
       v-model="valueHtml"
       style="height: 500px; overflow-y: hidden"
@@ -30,16 +43,30 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
-
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@renderer/stores/user';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n({ useScope: 'global' });
+
+const userStore = useUserStore();
+enum OpType {
+  Create = 'create',
+  Edit = 'edit',
+}
+
+const blogTitle = ref('');
 const router = useRouter();
-
+const { query } = useRoute();
+const { opType = OpType.Create, blogId, isPublic } = query;
 const operation = ref('edit');
+const titleError = ref(false);
+const titleErrorMsg = ref('');
+const isContentEmpty = ref(false);
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
@@ -74,10 +101,49 @@ const handlePreviewClick = () => {
   operation.value = 'preview';
 };
 
-const handleSaveClick = () => {
+const validate = (content?: string) => {
+  if (!blogTitle.value) {
+    titleError.value = true;
+    titleErrorMsg.value = t('blog.pleaseEnterTitle');
+    return false;
+  }
+  isContentEmpty.value = !content;
+  if (!content) return false;
+  return true;
+};
+
+const handleTitleChange = () => {
+  console.info(`title change`);
+  titleError.value = false;
+  titleErrorMsg.value = '';
+};
+
+const handleSaveClick = async () => {
   const editor = editorRef.value;
   if (editor == null) return;
-  console.log(editor.getHtml());
+  const content = editor.getHtml();
+  if (!validate(content)) return;
+  console.log(content);
+
+  const blogData: any = {
+    title: blogTitle.value,
+    content,
+    author: userStore.userId,
+    authorAnonymous: !userStore.isLoggedIn,
+    tags: [],
+    public: isPublic === '1',
+  };
+
+  if (opType === OpType.Create) {
+    const res = await window.api.blog.addBlog(blogData);
+    console.info(res);
+  } else {
+    console.info(`building...`);
+    blogData.id = blogId;
+    const res = await window.api.blog.updateBlog(blogData);
+    console.info(res);
+  }
+  router.back();
 };
 
 const handleCancelClick = () => {

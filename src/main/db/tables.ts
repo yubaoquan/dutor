@@ -30,17 +30,34 @@ const createTagsTable = async (db) =>
     table.timestamp('created_at').defaultTo(db.fn.now());
   });
 
+/** 创建表 */
 const tableDefinitions: [TableName, (db) => Promise<any>][] = [
   [TableName.Users, createUsersTable],
   [TableName.Blogs, createBlogsTable],
   [TableName.Tags, createTagsTable],
 ];
 
-export const createTables = async (db) =>
-  Promise.all(
+const modifyBlogsTable = async (db) => {
+  const columnKey = 'author_anonymous';
+  const hasAuthorType = await db.schema.hasColumn(TableName.Blogs, columnKey);
+  if (!hasAuthorType) {
+    return db.schema.alterTable(TableName.Blogs, (table) => {
+      table.boolean(columnKey).nullable().defaultTo(null);
+    });
+  }
+};
+
+/** 修改表 */
+const tableModifications: ((db) => Promise<any>)[] = [modifyBlogsTable];
+
+export const initTables = async (db) => {
+  await Promise.all(
     tableDefinitions.map(async ([tableName, createTable]) => {
       const tableExists = await isTableExists(tableName, db);
       if (tableExists) return;
       return createTable(db);
     }),
   );
+
+  await Promise.all(tableModifications.map((modifyTable) => modifyTable(db)));
+};

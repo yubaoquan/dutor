@@ -20,6 +20,7 @@
       </div>
       <div>
         <v-btn @click="handleGetUsersClick">get users</v-btn>
+        <v-btn @click="handleGetBlogsClick">get blogs</v-btn>
       </div>
     </div>
     <router-view></router-view>
@@ -49,6 +50,11 @@ const handleGetUsersClick = async () => {
 
 const handleLoginConfirm = () => {
   console.info(`isLoggedIn xx`, userStore.isLoggedIn);
+};
+
+const handleGetBlogsClick = async () => {
+  const res = await window.api.blog.getBlogs();
+  console.info(res);
 };
 </script>
 

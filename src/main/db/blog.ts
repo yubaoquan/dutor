@@ -11,7 +11,10 @@ type BlogQuery = {
   title?: string;
 };
 
-export const addBlog = (blog: any) => getDb().table(TableName.Blogs).insert(blog);
+export const addBlog = (blog: any) => {
+  console.info(`toInsert`, blog);
+  return getDb().table(TableName.Blogs).insert(blog);
+};
 export const updateBlog = (blog: any) =>
   getDb().table(TableName.Blogs).where({ id: blog.id }).update(blog);
 
@@ -23,7 +26,8 @@ export const getBlogs = (query: BlogQuery = {}) => {
   if (query.tags) {
     pickedQuery.tags = { $in: query.tags };
   }
-  return getDb().table(TableName.Blogs).select(pickedQuery);
+
+  return getDb().table(TableName.Blogs).select().where(pickedQuery);
 };
 
 export const getBlogById = (id: number) =>

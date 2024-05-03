@@ -49,6 +49,9 @@
     "username": "Username",
     "password": "Password",
     "passwordAgain": "Password Again",
-    "logout": "Logout"
+    "logout": "Logout",
+    "title": "Title",
+    "pleaseEnterTitle": "Please enter title",
+    "pleaseEnterContent": "Please enter content"
   }
 }
