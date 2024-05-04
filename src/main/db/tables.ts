@@ -1,5 +1,6 @@
 import { TableName } from './constants';
 
+const fieldAuthorAnonymous = 'author_anonymous';
 const isTableExists = async (tableName: TableName, db) => db.schema.hasTable(tableName);
 
 /** 用户表 */
@@ -16,6 +17,7 @@ const createBlogsTable = async (db) =>
     table.bigIncrements('id', { primaryKey: true });
     table.string('title');
     table.bigint('author');
+    table.boolean(fieldAuthorAnonymous).nullable().defaultTo(null);
     table.json('tags').defaultTo('[]');
     table.string('content');
     table.boolean('public');
@@ -38,11 +40,10 @@ const tableDefinitions: [TableName, (db) => Promise<any>][] = [
 ];
 
 const modifyBlogsTable = async (db) => {
-  const columnKey = 'author_anonymous';
-  const hasAuthorType = await db.schema.hasColumn(TableName.Blogs, columnKey);
+  const hasAuthorType = await db.schema.hasColumn(TableName.Blogs, fieldAuthorAnonymous);
   if (!hasAuthorType) {
     return db.schema.alterTable(TableName.Blogs, (table) => {
-      table.boolean(columnKey).nullable().defaultTo(null);
+      table.boolean(fieldAuthorAnonymous).nullable().defaultTo(null);
     });
   }
 };

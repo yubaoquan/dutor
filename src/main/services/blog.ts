@@ -1,6 +1,7 @@
 import { toSnakeObject, toCamelObject } from '@main/utils/index';
 import * as db from '../db/blog';
 
+// sqlite 不支持 boolean 类型, https://www.sqlite.org/datatype3.html
 const convertBlog = (input: any) => {
   const blog = toCamelObject(input);
   blog.public = Boolean(blog.public);

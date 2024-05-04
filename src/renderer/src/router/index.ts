@@ -56,7 +56,7 @@ const router = createRouter({
               meta: {
                 title: 'blog.createBlog',
               },
-              component: () => import('../views/blog/edit-blog.vue'),
+              component: () => import('../views/blog/edit-blog/index.vue'),
             },
           ],
         },

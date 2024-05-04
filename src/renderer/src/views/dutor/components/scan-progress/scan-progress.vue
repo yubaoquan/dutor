@@ -53,8 +53,8 @@ import type { FileItem } from '@renderer/types/index';
 
 const props = defineProps<{
   allFiles: FileItem[];
-  scanningFiles: FileItem[];
   finishedFiles: FileItem[];
+  scanningFiles: FileItem[];
 }>();
 
 const scanningProgress = computed(() => {

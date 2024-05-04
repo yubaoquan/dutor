@@ -1,5 +1,5 @@
 <template>
-  <div v-show="operation === 'edit'" class="p-20 enhance-html">
+  <div v-show="operation === 'edit'" class="p-20 pt-10 enhance-html">
     <div>
       <v-text-field
         v-model="blogTitle"
@@ -9,9 +9,13 @@
         hide-details="auto"
         :error="titleError"
         :error-messages="titleErrorMsg"
+        maxlength="100"
+        counter
+        clearable
         @update:model-value="handleTitleChange"
       ></v-text-field>
     </div>
+    <BlogTags ref="tagRef" />
     <Toolbar
       style="border-bottom: 1px solid #ccc"
       :editor="editorRef"
@@ -21,7 +25,7 @@
     <div v-if="isContentEmpty">{{ $t('blog.pleaseEnterContent') }}</div>
     <Editor
       v-model="valueHtml"
-      style="height: 500px; overflow-y: hidden"
+      style="height: 400px; overflow-y: hidden"
       :default-config="editorConfig"
       :mode="mode"
       @on-created="handleCreated"
@@ -34,9 +38,8 @@
       </div>
     </div>
   </div>
-  <div v-show="operation === 'preview'" class="px-20 py-10 enhance-html">
-    <!-- eslint-disable-next-line vue/no-v-html -->
-    <div class="preview-content" v-html="valueHtml"></div>
+  <div v-show="operation === 'preview'" class="px-20 py-10">
+    <BlogDetail :title="blogTitle" :tags="previewTags" :content="valueHtml" />
     <div class="pt-5">
       <v-btn @click="handlePreviewBackClick">{{ $t('common.back') }}</v-btn>
     </div>
@@ -50,6 +53,8 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '@renderer/stores/user';
 import { useI18n } from 'vue-i18n';
+import BlogDetail from '@renderer/components/blog-detail.vue';
+import BlogTags from './components/blog-tags.vue';
 
 const { t } = useI18n({ useScope: 'global' });
 
@@ -68,6 +73,8 @@ const titleError = ref(false);
 const titleErrorMsg = ref('');
 const isContentEmpty = ref(false);
 
+const tagRef = ref();
+
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
 
@@ -76,8 +83,11 @@ const valueHtml = ref('<p>hello</p>');
 
 const mode = ref('default');
 
+const previewTags = ref<string[]>([]);
+
 // 模拟 ajax 异步获取内容
 onMounted(() => {
+  tagRef.value?.init();
   setTimeout(() => {
     valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>';
   }, 1500);
@@ -99,6 +109,7 @@ const handleCreated = (editor) => {
 
 const handlePreviewClick = () => {
   operation.value = 'preview';
+  previewTags.value = tagRef.value?.getSelectedTags();
 };
 
 const validate = (content?: string) => {
@@ -130,7 +141,7 @@ const handleSaveClick = async () => {
     content,
     author: userStore.userId,
     authorAnonymous: !userStore.isLoggedIn,
-    tags: [],
+    tags: tagRef.value?.getSelectedTags(),
     public: isPublic === '1',
   };
 
@@ -154,9 +165,3 @@ const handlePreviewBackClick = () => {
   operation.value = 'edit';
 };
 </script>
-
-<style lang="less" scoped>
-.preview-content {
-  min-height: 580px;
-}
-</style>
