@@ -19,14 +19,16 @@
             :disabled="isTagDisabled(item)"
             @click.capture.stop="handleToggleTag(item)"
           >
-            <v-list-item-action class="flex justify-start items-center">
-              <v-checkbox
-                density="compact"
-                hide-details
-                :model-value="selectedTags.includes(item.value)"
-              ></v-checkbox>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-action>
+            <template #prepend>
+              <v-list-item-action end>
+                <v-checkbox
+                  density="compact"
+                  hide-details
+                  :model-value="selectedTags.includes(item.value)"
+                ></v-checkbox>
+              </v-list-item-action>
+            </template>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
         </template>
       </v-autocomplete>
@@ -77,7 +79,7 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n({ useScope: 'global' });
 const selectedTags = ref<string[]>([]);
-const allTags = ref([]);
+const allTags = ref<string[]>([]);
 const isEditingNewTag = ref(false);
 const newTag = ref('');
 const tagError = ref(false);
