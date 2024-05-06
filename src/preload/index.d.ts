@@ -1,4 +1,4 @@
-import type { User } from '@/common/types'
+import type { User, CommonResponse } from '@/common/types'
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 type API = {
@@ -25,7 +25,7 @@ type API = {
     addTag: (tag: string) => Promise<string>
     deleteBlogById: (id: number) => Promise<boolean>
     deleteTag: (tag: string) => Promise<boolean>
-    getBlogs: (query?: BlogQuery) => Promise<Blog[]>
+    getBlogs: (query: BlogQuery, pagination?: Pagination) => Promise<CommonResponse[]>
     getTags: () => Promise<string[]>
     updateBlog: (blog: Blog) => Promise<Blog>
     getDetail: (id: number) => Promise<Blog>

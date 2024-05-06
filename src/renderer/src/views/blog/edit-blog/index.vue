@@ -48,7 +48,7 @@
 
 <script lang="ts" setup>
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue';
+import { onBeforeUnmount, ref, shallowRef, onMounted, toRaw } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '@renderer/stores/user';
@@ -141,11 +141,12 @@ const handleSaveClick = async () => {
     content,
     author: userStore.userId,
     authorAnonymous: !userStore.isLoggedIn,
-    tags: tagRef.value?.getSelectedTags(),
+    tags: toRaw(tagRef.value?.getSelectedTags()),
     public: isPublic === '1',
   };
 
   if (opType === OpType.Create) {
+    console.info(`blogData`, blogData);
     const res = await window.api.blog.addBlog(blogData);
     console.info(res);
   } else {

@@ -1,5 +1,6 @@
 import { RendererMessage } from '@/common/message';
 import type { Blog } from '@/common/types';
+import { defaultPagination } from '@/common/default';
 import { addBlog, getBlogs, deleteBlogById, getBlogById } from '../services/blog';
 
 const handleAddBlog = ({ ipcMain }) => {
@@ -7,7 +8,13 @@ const handleAddBlog = ({ ipcMain }) => {
 };
 
 const handleGetBlogs = ({ ipcMain }) => {
-  ipcMain.handle(RendererMessage.GetBlogs, async (_event, query: any = {}) => getBlogs(query));
+  ipcMain.handle(
+    RendererMessage.GetBlogs,
+    async (_event, query, pagination = defaultPagination) => {
+      const { blogs, total } = await getBlogs(query, pagination);
+      return { data: { blogs, total }, success: true, code: 0 };
+    },
+  );
 };
 
 const handleDeleteBlog = ({ ipcMain }) => {

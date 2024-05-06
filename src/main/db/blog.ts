@@ -6,6 +6,8 @@ type BlogQuery = {
   author?: string;
   content?: string;
   id?: number;
+  limit: number;
+  offset: number;
   public?: boolean;
   tags?: string[];
   title?: string;
@@ -18,7 +20,7 @@ export const addBlog = (blog: any) => {
 export const updateBlog = (blog: any) =>
   getDb().table(TableName.Blogs).where({ id: blog.id }).update(blog);
 
-export const getBlogs = (query: BlogQuery = {}) => {
+export const getBlogs = async (query: BlogQuery = { limit: 10, offset: 0 }) => {
   const pickedQuery: any = pick(query, ['author', 'title', 'public']);
   if (query.content) {
     pickedQuery.content = { $like: `%${query.content}%` };
@@ -27,7 +29,22 @@ export const getBlogs = (query: BlogQuery = {}) => {
     pickedQuery.tags = { $in: query.tags };
   }
 
-  return getDb().table(TableName.Blogs).select().where(pickedQuery);
+  const db = getDb();
+
+  const [blogs, blogsCount] = await Promise.all([
+    db
+      .table(TableName.Blogs)
+      .select('*')
+      .where(pickedQuery)
+      .limit(query.limit, { skipBinding: true })
+      .offset(query.offset),
+    db.table(TableName.Blogs).count({ count: '*' }).where(pickedQuery).first(),
+  ]);
+
+  return {
+    data: blogs,
+    total: blogsCount.count,
+  };
 };
 
 export const getBlogById = (id: number) =>

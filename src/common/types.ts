@@ -18,3 +18,14 @@ export type Blog = {
   title: string;
   updated_at?: number;
 };
+
+export type CommonResponse<T> = {
+  code: number;
+  data: T;
+  message: string;
+};
+
+export type Pagination = {
+  page: number;
+  pageSize: number;
+};

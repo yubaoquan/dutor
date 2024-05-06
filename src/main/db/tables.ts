@@ -1,6 +1,7 @@
 import { TableName } from './constants';
 
-const fieldAuthorAnonymous = 'author_anonymous';
+const FIELD_AUTHOR_ANONYMOUS = 'author_anonymous';
+const FIELD_USER_TAGS = 'tags';
 const isTableExists = async (tableName: TableName, db) => db.schema.hasTable(tableName);
 
 /** 用户表 */
@@ -9,6 +10,7 @@ const createUsersTable = async (db) =>
     table.bigIncrements('id', { primaryKey: true });
     table.string('name');
     table.string('hash');
+    table.json('tags').defaultTo('[]');
   });
 
 /** 博客表 */
@@ -17,7 +19,7 @@ const createBlogsTable = async (db) =>
     table.bigIncrements('id', { primaryKey: true });
     table.string('title');
     table.bigint('author');
-    table.boolean(fieldAuthorAnonymous).nullable().defaultTo(null);
+    table.boolean(FIELD_AUTHOR_ANONYMOUS).nullable().defaultTo(null);
     table.json('tags').defaultTo('[]');
     table.string('content');
     table.boolean('public');
@@ -40,16 +42,25 @@ const tableDefinitions: [TableName, (db) => Promise<any>][] = [
 ];
 
 const modifyBlogsTable = async (db) => {
-  const hasAuthorType = await db.schema.hasColumn(TableName.Blogs, fieldAuthorAnonymous);
+  const hasAuthorType = await db.schema.hasColumn(TableName.Blogs, FIELD_AUTHOR_ANONYMOUS);
   if (!hasAuthorType) {
     return db.schema.alterTable(TableName.Blogs, (table) => {
-      table.boolean(fieldAuthorAnonymous).nullable().defaultTo(null);
+      table.boolean(FIELD_AUTHOR_ANONYMOUS).nullable().defaultTo(null);
+    });
+  }
+};
+
+const modifyUsersTable = async (db) => {
+  const hasUserTags = await db.schema.hasColumn(TableName.Users, FIELD_USER_TAGS);
+  if (!hasUserTags) {
+    return db.schema.alterTable(TableName.Users, (table) => {
+      table.json(FIELD_USER_TAGS).defaultTo('[]');
     });
   }
 };
 
 /** 修改表 */
-const tableModifications: ((db) => Promise<any>)[] = [modifyBlogsTable];
+const tableModifications: ((db) => Promise<any>)[] = [modifyBlogsTable, modifyUsersTable];
 
 export const initTables = async (db) => {
   await Promise.all(
