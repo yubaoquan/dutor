@@ -10,7 +10,9 @@
     "cancel": "取消",
     "preview": "预览",
     "save": "保存",
-    "back": "返回"
+    "back": "返回",
+    "yes": "是",
+    "no": "否"
   },
   "route": {
     "home": "首页",
@@ -57,6 +59,7 @@
     "pleaseEnterTag": "标签名不能为空",
     "tagAlreadyExists": "标签已存在",
     "addTag": "新增标签",
-    "newTag": "新标签"
+    "newTag": "新标签",
+    "isPublic": "公开"
   }
 }

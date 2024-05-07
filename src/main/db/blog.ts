@@ -1,4 +1,5 @@
 import { pick } from 'radash';
+import { toSnakeObject } from '@main/utils';
 import { getDb } from './index';
 import { TableName } from './constants';
 
@@ -6,9 +7,9 @@ type BlogQuery = {
   author?: string;
   content?: string;
   id?: number;
+  isPublic?: boolean;
   limit: number;
   offset: number;
-  public?: boolean;
   tags?: string[];
   title?: string;
 };
@@ -21,7 +22,7 @@ export const updateBlog = (blog: any) =>
   getDb().table(TableName.Blogs).where({ id: blog.id }).update(blog);
 
 export const getBlogs = async (query: BlogQuery = { limit: 10, offset: 0 }) => {
-  const pickedQuery: any = pick(query, ['author', 'title', 'public']);
+  const pickedQuery: any = pick(query, ['author', 'title', 'isPublic']);
   if (query.content) {
     pickedQuery.content = { $like: `%${query.content}%` };
   }
@@ -29,16 +30,18 @@ export const getBlogs = async (query: BlogQuery = { limit: 10, offset: 0 }) => {
     pickedQuery.tags = { $in: query.tags };
   }
 
+  const snakeQuery = toSnakeObject(pickedQuery);
+
   const db = getDb();
 
   const [blogs, blogsCount] = await Promise.all([
     db
       .table(TableName.Blogs)
       .select('*')
-      .where(pickedQuery)
+      .where(snakeQuery)
       .limit(query.limit, { skipBinding: true })
       .offset(query.offset),
-    db.table(TableName.Blogs).count({ count: '*' }).where(pickedQuery).first(),
+    db.table(TableName.Blogs).count({ count: '*' }).where(snakeQuery).first(),
   ]);
 
   return {

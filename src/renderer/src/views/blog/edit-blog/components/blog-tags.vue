@@ -37,6 +37,7 @@
       <div v-if="isEditingNewTag" class="flex items-start justify-end">
         <v-text-field
           v-model="newTag"
+          autofocus
           clearable
           density="compact"
           hide-details="auto"
@@ -74,10 +75,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n({ useScope: 'global' });
+
+const props = defineProps<{
+  isPublic: boolean;
+}>();
 const selectedTags = ref<string[]>([]);
 const allTags = ref<string[]>([]);
 const isEditingNewTag = ref(false);
@@ -85,21 +90,10 @@ const newTag = ref('');
 const tagError = ref(false);
 const tagErrorMsg = ref('');
 
-const fetchAllTags = () => {
-  allTags.value = [
-    '000',
-    '111',
-    '222',
-    '333',
-    '444',
-    '555',
-    '666',
-    '777',
-    '888',
-    '999',
-    'aaa',
-    'bbb',
-  ];
+const fetchAllTags = async () => {
+  const res = await window.api.blog.getTags({ isPublic: props.isPublic });
+  console.info('tags', res);
+  allTags.value = res.data.map((item) => item.name);
 };
 const MAX_TAGS = 6;
 

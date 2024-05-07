@@ -3,6 +3,7 @@ import dutorController from './dutor';
 import settingController from './setting';
 import themeController from './theme';
 import userController from './user';
+import tagController from './tag';
 
 const controllers = [
   blogController,
@@ -10,6 +11,7 @@ const controllers = [
   userController,
   themeController,
   settingController,
+  tagController,
 ];
 
 export default ({ ipcMain, mainWindow }) => {

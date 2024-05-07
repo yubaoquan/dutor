@@ -25,8 +25,8 @@ type API = {
     addTag: (tag: string) => Promise<string>
     deleteBlogById: (id: number) => Promise<boolean>
     deleteTag: (tag: string) => Promise<boolean>
-    getBlogs: (query: BlogQuery, pagination?: Pagination) => Promise<CommonResponse[]>
-    getTags: () => Promise<string[]>
+    getBlogs: (query: BlogQuery, pagination?: Pagination) => Promise<CommonResponse<{blogs: Blog[], total: number}>>
+    getTags: (query: TagsQuery) => Promise<CommonResponse<{name: string; isPublic: boolean}[]>>
     updateBlog: (blog: Blog) => Promise<Blog>
     getDetail: (id: number) => Promise<Blog>
   }

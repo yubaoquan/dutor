@@ -29,3 +29,8 @@ export type Pagination = {
   page: number;
   pageSize: number;
 };
+
+export type TagsQuery = {
+  isPublic?: boolean;
+  names?: string[];
+};

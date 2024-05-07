@@ -20,7 +20,12 @@
       </div>
       <div>
         <v-btn @click="handleGetUsersClick">get users</v-btn>
-        <v-btn @click="handleGetBlogsClick">get blogs</v-btn>
+      </div>
+      <div>
+        <v-btn @click="getTags(false)">get tags by names</v-btn>
+      </div>
+      <div>
+        <v-btn @click="getTags(true)">get all tags</v-btn>
       </div>
     </div>
     <router-view></router-view>
@@ -52,8 +57,11 @@ const handleLoginConfirm = () => {
   console.info(`isLoggedIn xx`, userStore.isLoggedIn);
 };
 
-const handleGetBlogsClick = async () => {
-  const res = await window.api.blog.getBlogs();
+const getTags = async (isAll) => {
+  console.info(isAll);
+  const query = isAll ? {} : { names: ['abcd'] };
+  console.info(`query`, query);
+  const res = await window.api.blog.getTags(query);
   console.info(res);
 };
 </script>

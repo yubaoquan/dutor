@@ -15,7 +15,14 @@
         @update:model-value="handleTitleChange"
       ></v-text-field>
     </div>
-    <BlogTags ref="tagRef" />
+    <div v-if="!isPublic">
+      <v-switch
+        v-model="isBlogPublic"
+        :label="`${$t('blog.isPublic')}: ${isBlogPublic ? t('common.yes') : t('common.no')}`"
+        hide-details
+      ></v-switch>
+    </div>
+    <BlogTags ref="tagRef" :is-public="!!isPublic" />
     <Toolbar
       style="border-bottom: 1px solid #ccc"
       :editor="editorRef"
@@ -67,9 +74,11 @@ enum OpType {
 const blogTitle = ref('');
 const router = useRouter();
 const { query } = useRoute();
-const { opType = OpType.Create, blogId, isPublic } = query;
+const { opType = OpType.Create, blogId } = query;
+const isPublic = query.public === '1';
 const operation = ref('edit');
 const titleError = ref(false);
+const isBlogPublic = ref(isPublic);
 const titleErrorMsg = ref('');
 const isContentEmpty = ref(false);
 
@@ -142,13 +151,12 @@ const handleSaveClick = async () => {
     author: userStore.userId,
     authorAnonymous: !userStore.isLoggedIn,
     tags: toRaw(tagRef.value?.getSelectedTags()),
-    public: isPublic === '1',
+    isPublic: isBlogPublic.value,
   };
 
   if (opType === OpType.Create) {
     console.info(`blogData`, blogData);
-    const res = await window.api.blog.addBlog(blogData);
-    console.info(res);
+    await window.api.blog.addBlog(blogData);
   } else {
     console.info(`building...`);
     blogData.id = blogId;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/blog/create?isPublic=1" class="pa-4"
+    <router-link to="/blog/create?public=1" class="pa-4"
       ><v-btn class="inline-block" :text="$t('blog.createBlog')" variant="tonal"></v-btn
     ></router-link>
   </div>
@@ -10,7 +10,7 @@
 import { onMounted } from 'vue';
 
 onMounted(async () => {
-  const blogs = await window.api.blog.getBlogs({ public: true });
+  const blogs = await window.api.blog.getBlogs({ isPublic: true });
   console.info(blogs);
 });
 </script>

@@ -6,7 +6,7 @@ import { addTagsIfNotExists } from './tag';
 // sqlite 不支持 boolean 类型, 从数据库里取出来的数据要转一下 https://www.sqlite.org/datatype3.html
 const convertBlog = (input: any) => {
   const blog = toCamelObject(input);
-  blog.public = Boolean(blog.public);
+  blog.isPublic = Boolean(blog.isPublic);
   blog.authorAnonymous = Boolean(blog.authorAnonymous);
   try {
     blog.tags = JSON.parse(blog.tags as string);
@@ -21,10 +21,9 @@ const convertBlogs = (blogs: any[]) => blogs.map(convertBlog);
 
 export const addBlog = async (blog: any) => {
   const toAdd = toSnakeObject(blog);
-  await addTagsIfNotExists(blog.tags);
+  await addTagsIfNotExists(blog.tags, blog.isPublic);
   toAdd.tags = JSON.stringify(blog.tags);
   const newBlog = await db.addBlog(toAdd);
-  console.info(`newBlog`, newBlog);
   return newBlog;
 };
 
@@ -44,7 +43,6 @@ export const getBlogs = async (query: any, pagination: Pagination) => {
     offset: (pagination.page - 1) * pagination.pageSize,
     limit: pagination.pageSize,
   });
-  console.info(`blogs`, data);
   return { blogs: convertBlogs(data), total };
 };
 

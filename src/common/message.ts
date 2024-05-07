@@ -11,7 +11,7 @@ export const enum RendererMessage {
   GetBlogs = 'get-blogs',
   GetIsDark = 'get-is-dark',
   GetLanguage = 'get-language',
-  GetTags = 'GetTags',
+  GetTags = 'get-tags',
   GetUsers = 'get-users',
   Login = 'login',
   OpenDevTools = 'open-dev-tools',

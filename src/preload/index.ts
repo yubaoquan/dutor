@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import type { Pagination } from '@/common/types';
+import type { Pagination, TagsQuery } from '@/common/types';
 import { RendererMessage } from '../common/message';
 
 // Custom APIs for renderer
@@ -36,7 +36,7 @@ const api = {
     deleteTag: (tag: string) => ipcRenderer.invoke(RendererMessage.DeleteTag, tag),
     getBlogs: (conditions: any, pagination?: Pagination) =>
       ipcRenderer.invoke(RendererMessage.GetBlogs, conditions, pagination),
-    getTags: () => ipcRenderer.invoke(RendererMessage.GetTags),
+    getTags: (query: TagsQuery) => ipcRenderer.invoke(RendererMessage.GetTags, query),
     updateBlog: (blog: any) => ipcRenderer.invoke(RendererMessage.UpdateBlog, blog),
     getDetail: (id: number) => ipcRenderer.invoke(RendererMessage.GetBlogDetail, id),
   },

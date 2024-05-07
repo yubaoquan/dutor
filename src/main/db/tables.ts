@@ -2,6 +2,8 @@ import { TableName } from './constants';
 
 const FIELD_AUTHOR_ANONYMOUS = 'author_anonymous';
 const FIELD_USER_TAGS = 'tags';
+const TAB_FIELD_PUBLIC = 'is_public';
+const BLOG_FIELD_IS_PUBLIC = 'is_public';
 const isTableExists = async (tableName: TableName, db) => db.schema.hasTable(tableName);
 
 /** 用户表 */
@@ -22,7 +24,7 @@ const createBlogsTable = async (db) =>
     table.boolean(FIELD_AUTHOR_ANONYMOUS).nullable().defaultTo(null);
     table.json('tags').defaultTo('[]');
     table.string('content');
-    table.boolean('public');
+    table.boolean(BLOG_FIELD_IS_PUBLIC);
     table.timestamps(true, true);
   });
 
@@ -32,6 +34,7 @@ const createTagsTable = async (db) =>
     table.bigIncrements('id', { primaryKey: true });
     table.string('name');
     table.timestamp('created_at').defaultTo(db.fn.now());
+    table.boolean(TAB_FIELD_PUBLIC).nullable().defaultTo(true);
   });
 
 /** 创建表 */
@@ -43,11 +46,24 @@ const tableDefinitions: [TableName, (db) => Promise<any>][] = [
 
 const modifyBlogsTable = async (db) => {
   const hasAuthorType = await db.schema.hasColumn(TableName.Blogs, FIELD_AUTHOR_ANONYMOUS);
+  const tasks: Promise<any>[] = [];
   if (!hasAuthorType) {
-    return db.schema.alterTable(TableName.Blogs, (table) => {
-      table.boolean(FIELD_AUTHOR_ANONYMOUS).nullable().defaultTo(null);
-    });
+    tasks.push(
+      db.schema.alterTable(TableName.Blogs, (table) => {
+        table.boolean(FIELD_AUTHOR_ANONYMOUS).nullable().defaultTo(null);
+      }),
+    );
   }
+  const hasIsPublic = await db.schema.hasColumn(TableName.Blogs, BLOG_FIELD_IS_PUBLIC);
+  if (!hasIsPublic) {
+    tasks.push(
+      db.schema.alterTable(TableName.Blogs, (table) => {
+        table.boolean(BLOG_FIELD_IS_PUBLIC);
+      }),
+    );
+  }
+
+  return Promise.all(tasks);
 };
 
 const modifyUsersTable = async (db) => {
@@ -59,8 +75,21 @@ const modifyUsersTable = async (db) => {
   }
 };
 
+const modifyTagsTable = async (db) => {
+  const hasPublic = await db.schema.hasColumn(TableName.Tags, TAB_FIELD_PUBLIC);
+  if (!hasPublic) {
+    return db.schema.alterTable(TableName.Tags, (table) => {
+      table.boolean(TAB_FIELD_PUBLIC).nullable().defaultTo(true);
+    });
+  }
+};
+
 /** 修改表 */
-const tableModifications: ((db) => Promise<any>)[] = [modifyBlogsTable, modifyUsersTable];
+const tableModifications: ((db) => Promise<any>)[] = [
+  modifyBlogsTable,
+  modifyUsersTable,
+  modifyTagsTable,
+];
 
 export const initTables = async (db) => {
   await Promise.all(

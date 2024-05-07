@@ -10,7 +10,9 @@
     "cancel": "Cancel",
     "preview": "Preview",
     "save": "Save",
-    "back": "Back"
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No"
   },
   "route": {
     "home": "Home",
@@ -57,6 +59,7 @@
     "pleaseEnterTag": "Please enter tag",
     "tagAlreadyExists": "Tag already exists",
     "addTag": "Add new tag",
-    "newTag": "New tag"
+    "newTag": "New tag",
+    "isPublic": "public"
   }
 }
