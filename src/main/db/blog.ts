@@ -26,23 +26,41 @@ export const getBlogs = async (query: BlogQuery = { limit: 10, offset: 0 }) => {
   if (query.content) {
     pickedQuery.content = { $like: `%${query.content}%` };
   }
-  if (query.tags) {
-    pickedQuery.tags = { $in: query.tags };
-  }
 
   const snakeQuery = toSnakeObject(pickedQuery);
 
   const db = getDb();
 
-  const [blogs, blogsCount] = await Promise.all([
-    db
-      .table(TableName.Blogs)
-      .select('*')
-      .where(snakeQuery)
-      .limit(query.limit, { skipBinding: true })
-      .offset(query.offset),
-    db.table(TableName.Blogs).count({ count: '*' }).where(snakeQuery).first(),
-  ]);
+  const sql1 = db
+    .table(TableName.Blogs)
+    .select('*')
+    .limit(query.limit, { skipBinding: true })
+    .offset(query.offset)
+    .where(snakeQuery);
+  const sql2 = db.table(TableName.Blogs).count({ count: '*' }).first().where(snakeQuery);
+
+  console.info('query', query);
+
+  const performTagsIntersection = (tags: string[], sql) => {
+    sql.where((builder) => {
+      builder.where((qb) => {
+        tags.forEach((tag) => {
+          qb.orWhere((bd) => {
+            bd.whereRaw('EXISTS (SELECT 1 FROM json_each(tags) WHERE value = ?)', tag);
+          });
+        });
+      });
+    });
+  };
+
+  if (query.tags?.length) {
+    performTagsIntersection(query.tags, sql1);
+    performTagsIntersection(query.tags, sql2);
+  }
+  const sqlText = sql1.toSQL();
+  console.info(`sqlText`, sqlText);
+
+  const [blogs, blogsCount] = await Promise.all([sql1, sql2]);
 
   return {
     data: blogs,

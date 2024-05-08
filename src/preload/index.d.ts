@@ -1,4 +1,4 @@
-import type { User, CommonResponse } from '@/common/types'
+import type { User, CommonResponse, Pagination } from '@/common/types'
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 type API = {
