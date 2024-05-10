@@ -10,7 +10,7 @@ const isTableExists = async (tableName: TableName, db) => db.schema.hasTable(tab
 const createUsersTable = async (db) =>
   db.schema.createTable(TableName.Users, (table) => {
     table.bigIncrements('id', { primaryKey: true });
-    table.string('name');
+    table.string('name').unique();
     table.string('hash');
     table.json('tags').defaultTo('[]');
   });
@@ -32,7 +32,7 @@ const createBlogsTable = async (db) =>
 const createTagsTable = async (db) =>
   db.schema.createTable(TableName.Tags, (table) => {
     table.bigIncrements('id', { primaryKey: true });
-    table.string('name');
+    table.string('name').unique();
     table.timestamp('created_at').defaultTo(db.fn.now());
     table.boolean(TAB_FIELD_PUBLIC).nullable().defaultTo(true);
   });
